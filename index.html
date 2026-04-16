@@ -165,7 +165,13 @@
     }
     .hero-headline em {
       font-style: normal; color: var(--green);
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1) 0.42s,
+                  transform 0.7s cubic-bezier(0.16,1,0.3,1) 0.42s;
     }
+    .hero-headline.visible em { opacity: 1; transform: none; }
     .hero-sub {
       font-size: 1.05rem; line-height: 1.8;
       color: rgba(255,255,255,0.72);
@@ -720,6 +726,87 @@
     }
     .form-submit:hover { background: var(--green-dark); }
 
+    /* ── SOURCING MAP ── */
+    #sourcing-map {
+      background: #180B06;
+      padding: 6rem 5vw 7rem;
+      overflow: hidden;
+    }
+    #sourcing-map .section-tag { color: var(--green); }
+    #sourcing-map .section-title { color: var(--white); }
+    #sourcing-map .section-desc { color: rgba(255,255,255,0.5); margin-bottom: 3rem; }
+    .map-wrap {
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 2px;
+      background: rgba(255,255,255,0.015);
+    }
+    .map-svg { width: 100%; height: auto; display: block; }
+    .map-continent {
+      fill: rgba(255,255,255,0.035);
+      stroke: rgba(255,255,255,0.08);
+      stroke-width: 0.6;
+    }
+    .map-route {
+      fill: none;
+      stroke: var(--green);
+      stroke-width: 1.3;
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
+      opacity: 0;
+    }
+    .map-route.draw {
+      opacity: 0.55;
+      animation: drawRoute 1.8s ease forwards;
+    }
+    @keyframes drawRoute { to { stroke-dashoffset: 0; } }
+    .map-dot { fill: var(--green); }
+    .map-node-src {
+      fill: rgba(109,179,58,0.18);
+      stroke: var(--green);
+      stroke-width: 1;
+      cursor: pointer;
+      transition: fill 0.2s;
+    }
+    .map-node-src:hover { fill: rgba(109,179,58,0.7); }
+    .map-node-hub { fill: var(--green); }
+    .map-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 8px; font-weight: 700;
+      fill: rgba(255,255,255,0.55);
+      text-anchor: middle;
+      letter-spacing: 0.1em;
+      pointer-events: none;
+      text-transform: uppercase;
+    }
+    .map-label-hub { fill: var(--green); font-size: 9px; }
+    .map-tip {
+      position: absolute;
+      background: #180B06;
+      border: 1px solid rgba(109,179,58,0.5);
+      color: rgba(255,255,255,0.85);
+      padding: 0.6rem 0.9rem;
+      border-radius: 2px;
+      font-size: 0.78rem;
+      line-height: 1.65;
+      pointer-events: none;
+      display: none;
+      white-space: nowrap;
+      z-index: 20;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    }
+    .map-tip strong {
+      display: block;
+      color: var(--green);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.64rem; font-weight: 800;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      margin-bottom: 0.2rem;
+    }
+    @media (max-width: 700px) {
+      #sourcing-map { padding: 4rem 5vw 5rem; }
+    }
+
     /* ── FOOTER ── */
     footer {
       background: var(--brown);
@@ -995,6 +1082,88 @@
         <div class="stat-label">Established</div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- SOURCING MAP -->
+<section id="sourcing-map">
+  <div class="section-tag reveal">
+    <span class="divider"></span>
+    <span data-kr="Global Sourcing Network" data-en="Global Sourcing Network">Global Sourcing Network</span>
+  </div>
+  <h2 class="section-title reveal reveal-delay-1"
+      data-kr="5개국에서 한국의 식탁으로"
+      data-en="From 5 Nations to Korean Tables">5개국에서 한국의 식탁으로</h2>
+  <p class="section-desc reveal reveal-delay-2"
+     data-kr="미국·캐나다·스페인·호주·뉴질랜드 — 세계 주요 프리미엄 축산물 생산지에서 직수입합니다."
+     data-en="Direct imports from the world's top premium meat origins — USA, Canada, Spain, Australia, and New Zealand.">
+    미국·캐나다·스페인·호주·뉴질랜드 — 세계 주요 프리미엄 축산물 생산지에서 직수입합니다.
+  </p>
+  <div class="map-wrap reveal reveal-delay-3" id="mapWrap">
+    <svg class="map-svg" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Global sourcing map">
+      <defs>
+        <pattern id="mapGrid" patternUnits="userSpaceOnUse" width="28" height="28">
+          <circle cx="14" cy="14" r="0.65" fill="rgba(255,255,255,0.07)"/>
+        </pattern>
+      </defs>
+      <!-- Dot grid -->
+      <rect width="900" height="420" fill="url(#mapGrid)"/>
+      <!-- Simplified continent outlines -->
+      <path class="map-continent" d="M38,52 L218,44 L245,86 L268,230 L225,270 L150,265 L82,225 L40,170 Z"/>
+      <path class="map-continent" d="M335,105 L453,94 L470,140 L458,190 L426,208 L392,200 L364,182 L338,156 Z"/>
+      <path class="map-continent" d="M508,90 L764,80 L848,128 L832,260 L770,290 L706,255 L642,228 L555,202 L510,156 Z"/>
+      <path class="map-continent" d="M658,280 L812,268 L850,366 L800,402 L698,402 L656,368 Z"/>
+      <!-- Route paths -->
+      <path id="r-usa" class="map-route" pathLength="100" d="M128,195 C280,78 478,78 648,174"/>
+      <path id="r-can" class="map-route" pathLength="100" d="M148,147 C292,64 484,68 648,174"/>
+      <path id="r-esp" class="map-route" pathLength="100" d="M383,168 C462,124 562,122 648,174"/>
+      <path id="r-aus" class="map-route" pathLength="100" d="M728,324 C714,254 688,214 648,174"/>
+      <path id="r-nz"  class="map-route" pathLength="100" d="M798,357 C784,278 730,222 648,174"/>
+      <!-- Animated dots (JS-driven) -->
+      <circle class="map-dot" id="d-usa" r="2.8" cx="-20" cy="-20"/>
+      <circle class="map-dot" id="d-can" r="2.8" cx="-20" cy="-20"/>
+      <circle class="map-dot" id="d-esp" r="2.8" cx="-20" cy="-20"/>
+      <circle class="map-dot" id="d-aus" r="2.8" cx="-20" cy="-20"/>
+      <circle class="map-dot" id="d-nz"  r="2.8" cx="-20" cy="-20"/>
+      <!-- Korea hub pulsing rings -->
+      <circle cx="648" cy="174" fill="none" stroke="#6DB33A" stroke-width="1.5" r="8" opacity="0.85">
+        <animate attributeName="r" from="8" to="26" dur="2.6s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" from="0.85" to="0" dur="2.6s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="648" cy="174" fill="none" stroke="#6DB33A" stroke-width="1" r="8" opacity="0.45">
+        <animate attributeName="r" from="8" to="26" dur="2.6s" begin="1.3s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" from="0.45" to="0" dur="2.6s" begin="1.3s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="648" cy="174" r="7" class="map-node-hub"/>
+      <text class="map-label map-label-hub" x="648" y="198">KOREA</text>
+      <!-- Source nodes -->
+      <g class="map-node-g"
+         data-tip="&lt;strong&gt;USA&lt;/strong&gt;소고기 · Choice / Prime&lt;br&gt;Excel · Swift">
+        <circle cx="128" cy="195" r="6" class="map-node-src"/>
+        <text class="map-label" x="128" y="214">USA</text>
+      </g>
+      <g class="map-node-g"
+         data-tip="&lt;strong&gt;Canada&lt;/strong&gt;프리미엄 돼지고기&lt;br&gt;Olymel">
+        <circle cx="148" cy="147" r="5" class="map-node-src"/>
+        <text class="map-label" x="148" y="166">CANADA</text>
+      </g>
+      <g class="map-node-g"
+         data-tip="&lt;strong&gt;Spain&lt;/strong&gt;두록 돼지고기&lt;br&gt;Batalle">
+        <circle cx="383" cy="168" r="5" class="map-node-src"/>
+        <text class="map-label" x="383" y="187">SPAIN</text>
+      </g>
+      <g class="map-node-g"
+         data-tip="&lt;strong&gt;Australia&lt;/strong&gt;와규 · 목초 소고기&lt;br&gt;AMG · TEYS · GBP">
+        <circle cx="728" cy="324" r="6" class="map-node-src"/>
+        <text class="map-label" x="728" y="346">AUSTRALIA</text>
+      </g>
+      <g class="map-node-g"
+         data-tip="&lt;strong&gt;New Zealand&lt;/strong&gt;소고기 · 양고기&lt;br&gt;Alliance">
+        <circle cx="798" cy="357" r="5" class="map-node-src"/>
+        <text class="map-label" x="798" y="375">N. ZEALAND</text>
+      </g>
+    </svg>
+    <div class="map-tip" id="mapTip"></div>
   </div>
 </section>
 
@@ -1498,6 +1667,64 @@
     let saved = 'kr';
     try { saved = localStorage.getItem('foodiverse_lang') || 'kr'; } catch (e) {}
     if (saved === 'en') applyLang('en');
+  })();
+
+  // Sourcing map
+  (function() {
+    const wrap = document.getElementById('mapWrap');
+    if (!wrap) return;
+
+    function animateDot(dotId, pathId, duration, delay) {
+      const dot = document.getElementById(dotId);
+      const path = document.getElementById(pathId);
+      if (!dot || !path) return;
+      const len = path.getTotalLength();
+      setTimeout(() => {
+        let start = null;
+        function step(ts) {
+          if (!start) start = ts;
+          const t = ((ts - start) % duration) / duration;
+          const pt = path.getPointAtLength(t * len);
+          dot.setAttribute('cx', pt.x);
+          dot.setAttribute('cy', pt.y);
+          requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }, delay);
+    }
+
+    const mapObs = new IntersectionObserver(entries => {
+      if (!entries[0].isIntersecting) return;
+      // Draw routes sequentially
+      ['r-usa','r-can','r-esp','r-aus','r-nz'].forEach((id, i) => {
+        const el = document.getElementById(id);
+        if (el) setTimeout(() => el.classList.add('draw'), i * 300);
+      });
+      // Animate dots after routes appear
+      animateDot('d-usa', 'r-usa', 3800, 1900);
+      animateDot('d-can', 'r-can', 3500, 2200);
+      animateDot('d-esp', 'r-esp', 2800, 2500);
+      animateDot('d-aus', 'r-aus', 2200, 2800);
+      animateDot('d-nz',  'r-nz',  2500, 3100);
+      // Tooltips
+      const tip = document.getElementById('mapTip');
+      document.querySelectorAll('.map-node-g').forEach(g => {
+        g.addEventListener('mouseenter', () => {
+          tip.innerHTML = g.dataset.tip;
+          tip.style.display = 'block';
+        });
+        g.addEventListener('mousemove', e => {
+          const r = wrap.getBoundingClientRect();
+          let x = e.clientX - r.left + 14;
+          let y = e.clientY - r.top - 10;
+          tip.style.left = x + 'px';
+          tip.style.top  = y + 'px';
+        });
+        g.addEventListener('mouseleave', () => { tip.style.display = 'none'; });
+      });
+      mapObs.disconnect();
+    }, { threshold: 0.2 });
+    mapObs.observe(wrap);
   })();
 
   // Form submit
