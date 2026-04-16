@@ -1100,67 +1100,127 @@
     미국·캐나다·스페인·호주·뉴질랜드 — 세계 주요 프리미엄 축산물 생산지에서 직수입합니다.
   </p>
   <div class="map-wrap reveal reveal-delay-3" id="mapWrap">
-    <svg class="map-svg" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Global sourcing map">
+    <svg class="map-svg" viewBox="0 0 960 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Global sourcing map">
       <defs>
         <pattern id="mapGrid" patternUnits="userSpaceOnUse" width="28" height="28">
           <circle cx="14" cy="14" r="0.65" fill="rgba(255,255,255,0.07)"/>
         </pattern>
       </defs>
-      <!-- Dot grid -->
-      <rect width="900" height="420" fill="url(#mapGrid)"/>
-      <!-- Simplified continent outlines -->
-      <path class="map-continent" d="M38,52 L218,44 L245,86 L268,230 L225,270 L150,265 L82,225 L40,170 Z"/>
-      <path class="map-continent" d="M335,105 L453,94 L470,140 L458,190 L426,208 L392,200 L364,182 L338,156 Z"/>
-      <path class="map-continent" d="M508,90 L764,80 L848,128 L832,260 L770,290 L706,255 L642,228 L555,202 L510,156 Z"/>
-      <path class="map-continent" d="M658,280 L812,268 L850,366 L800,402 L698,402 L656,368 Z"/>
+      <rect width="960" height="480" fill="url(#mapGrid)"/>
+
+      <!-- Greenland -->
+      <path class="map-continent" d="M270,18 C285,12 308,10 325,18 C342,26 350,44 346,62 C342,80 328,92 312,94 C295,96 278,86 270,70 C262,54 258,26 270,18 Z"/>
+
+      <!-- North America -->
+      <path class="map-continent" d="
+        M5,78 C22,70 50,64 78,68 C98,72 102,88 102,108
+        C102,128 104,150 107,172 C110,196 116,218 120,236
+        C124,250 132,263 140,270 L162,274 L182,277
+        C196,277 208,270 215,258 C222,245 228,230 232,216
+        C236,202 230,188 236,176 C242,162 255,148 265,134
+        C275,120 280,102 276,88 C272,74 258,64 242,59
+        C224,54 202,52 180,52 C155,52 128,56 100,62
+        C72,68 42,72 5,78 Z
+      "/>
+
+      <!-- South America -->
+      <path class="map-continent" d="
+        M180,277 C194,268 210,267 220,275 C233,284 238,302 235,324
+        C231,348 222,372 216,398 C210,422 213,445 207,460
+        C202,472 189,478 177,474 C164,470 157,456 159,439
+        C161,420 166,400 163,378 C160,354 154,328 156,305
+        C158,282 169,268 180,277 Z
+      "/>
+
+      <!-- Europe -->
+      <path class="map-continent" d="
+        M366,68 C382,60 408,57 432,62 C458,68 476,84 480,104
+        C484,124 476,146 464,160 C452,174 432,180 412,178
+        C390,176 372,164 364,148 C355,130 354,108 360,92
+        C363,82 366,74 366,68 Z
+      "/>
+
+      <!-- Africa -->
+      <path class="map-continent" d="
+        M368,178 C390,170 424,170 448,184 C472,198 482,225 482,254
+        C482,284 474,314 465,344 C456,374 450,403 442,428
+        C434,452 418,466 400,470 C380,474 360,464 348,447
+        C334,428 330,405 333,380 C336,354 344,328 344,302
+        C344,276 348,251 350,228 C352,206 360,183 368,178 Z
+      "/>
+
+      <!-- Asia (main landmass) -->
+      <path class="map-continent" d="
+        M458,64 C508,54 572,50 638,53 C705,56 764,66 814,82
+        C862,98 896,122 906,150 C915,178 904,206 886,226
+        C868,248 840,262 810,270 C778,278 744,278 710,270
+        C675,262 640,250 605,240 C568,230 530,222 494,214
+        C456,206 428,194 416,176 C404,158 408,132 422,112
+        C432,96 445,78 458,64 Z
+      "/>
+
+      <!-- Australia -->
+      <path class="map-continent" d="
+        M668,295 C702,283 748,278 790,284
+        C834,290 868,308 886,334
+        C904,360 906,390 898,416
+        C890,442 870,460 844,468
+        C816,476 785,474 756,464
+        C726,454 698,434 678,408
+        C656,380 648,350 650,324
+        C652,305 658,296 668,295 Z
+      "/>
+
+      <!-- New Zealand (two islands) -->
+      <path class="map-continent" d="M930,400 C937,394 947,394 952,401 C957,408 954,420 947,424 C940,428 931,425 928,416 C925,408 926,403 930,400 Z"/>
+      <path class="map-continent" d="M920,432 C926,428 934,430 936,438 C938,446 932,452 925,449 C918,446 916,437 920,432 Z"/>
+
       <!-- Route paths -->
-      <path id="r-usa" class="map-route" pathLength="100" d="M128,195 C280,78 478,78 648,174"/>
-      <path id="r-can" class="map-route" pathLength="100" d="M148,147 C292,64 484,68 648,174"/>
-      <path id="r-esp" class="map-route" pathLength="100" d="M383,168 C462,124 562,122 648,174"/>
-      <path id="r-aus" class="map-route" pathLength="100" d="M728,324 C714,254 688,214 648,174"/>
-      <path id="r-nz"  class="map-route" pathLength="100" d="M798,357 C784,278 730,222 648,174"/>
-      <!-- Animated dots (JS-driven) -->
-      <circle class="map-dot" id="d-usa" r="2.8" cx="-20" cy="-20"/>
-      <circle class="map-dot" id="d-can" r="2.8" cx="-20" cy="-20"/>
-      <circle class="map-dot" id="d-esp" r="2.8" cx="-20" cy="-20"/>
-      <circle class="map-dot" id="d-aus" r="2.8" cx="-20" cy="-20"/>
-      <circle class="map-dot" id="d-nz"  r="2.8" cx="-20" cy="-20"/>
+      <path id="r-usa" class="map-route" pathLength="100" d="M244,150 C430,68 638,68 810,155"/>
+      <path id="r-can" class="map-route" pathLength="100" d="M250,114 C440,44 648,48 810,155"/>
+      <path id="r-esp" class="map-route" pathLength="100" d="M422,140 C562,92 704,106 810,155"/>
+      <path id="r-aus" class="map-route" pathLength="100" d="M770,368 C775,282 796,216 810,155"/>
+      <path id="r-nz"  class="map-route" pathLength="100" d="M940,412 C920,322 870,238 810,155"/>
+
+      <!-- Animated dots -->
+      <circle class="map-dot" id="d-usa" r="3" cx="-20" cy="-20"/>
+      <circle class="map-dot" id="d-can" r="3" cx="-20" cy="-20"/>
+      <circle class="map-dot" id="d-esp" r="3" cx="-20" cy="-20"/>
+      <circle class="map-dot" id="d-aus" r="3" cx="-20" cy="-20"/>
+      <circle class="map-dot" id="d-nz"  r="3" cx="-20" cy="-20"/>
+
       <!-- Korea hub pulsing rings -->
-      <circle cx="648" cy="174" fill="none" stroke="#6DB33A" stroke-width="1.5" r="8" opacity="0.85">
+      <circle cx="810" cy="155" fill="none" stroke="#6DB33A" stroke-width="1.5" r="8" opacity="0.85">
         <animate attributeName="r" from="8" to="26" dur="2.6s" repeatCount="indefinite"/>
         <animate attributeName="opacity" from="0.85" to="0" dur="2.6s" repeatCount="indefinite"/>
       </circle>
-      <circle cx="648" cy="174" fill="none" stroke="#6DB33A" stroke-width="1" r="8" opacity="0.45">
+      <circle cx="810" cy="155" fill="none" stroke="#6DB33A" stroke-width="1" r="8" opacity="0.45">
         <animate attributeName="r" from="8" to="26" dur="2.6s" begin="1.3s" repeatCount="indefinite"/>
         <animate attributeName="opacity" from="0.45" to="0" dur="2.6s" begin="1.3s" repeatCount="indefinite"/>
       </circle>
-      <circle cx="648" cy="174" r="7" class="map-node-hub"/>
-      <text class="map-label map-label-hub" x="648" y="198">KOREA</text>
+      <circle cx="810" cy="155" r="7" class="map-node-hub"/>
+      <text class="map-label map-label-hub" x="810" y="180">KOREA</text>
+
       <!-- Source nodes -->
-      <g class="map-node-g"
-         data-tip="&lt;strong&gt;USA&lt;/strong&gt;소고기 · Choice / Prime&lt;br&gt;Excel · Swift">
-        <circle cx="128" cy="195" r="6" class="map-node-src"/>
-        <text class="map-label" x="128" y="214">USA</text>
+      <g class="map-node-g" data-tip="&lt;strong&gt;USA&lt;/strong&gt;소고기 · Choice / Prime&lt;br&gt;Excel · Swift">
+        <circle cx="244" cy="150" r="6" class="map-node-src"/>
+        <text class="map-label" x="244" y="169">USA</text>
       </g>
-      <g class="map-node-g"
-         data-tip="&lt;strong&gt;Canada&lt;/strong&gt;프리미엄 돼지고기&lt;br&gt;Olymel">
-        <circle cx="148" cy="147" r="5" class="map-node-src"/>
-        <text class="map-label" x="148" y="166">CANADA</text>
+      <g class="map-node-g" data-tip="&lt;strong&gt;Canada&lt;/strong&gt;프리미엄 돼지고기&lt;br&gt;Olymel">
+        <circle cx="250" cy="114" r="5" class="map-node-src"/>
+        <text class="map-label" x="250" y="132">CANADA</text>
       </g>
-      <g class="map-node-g"
-         data-tip="&lt;strong&gt;Spain&lt;/strong&gt;두록 돼지고기&lt;br&gt;Batalle">
-        <circle cx="383" cy="168" r="5" class="map-node-src"/>
-        <text class="map-label" x="383" y="187">SPAIN</text>
+      <g class="map-node-g" data-tip="&lt;strong&gt;Spain&lt;/strong&gt;두록 돼지고기&lt;br&gt;Batalle">
+        <circle cx="422" cy="140" r="5" class="map-node-src"/>
+        <text class="map-label" x="422" y="158">SPAIN</text>
       </g>
-      <g class="map-node-g"
-         data-tip="&lt;strong&gt;Australia&lt;/strong&gt;와규 · 목초 소고기&lt;br&gt;AMG · TEYS · GBP">
-        <circle cx="728" cy="324" r="6" class="map-node-src"/>
-        <text class="map-label" x="728" y="346">AUSTRALIA</text>
+      <g class="map-node-g" data-tip="&lt;strong&gt;Australia&lt;/strong&gt;와규 · 목초 소고기&lt;br&gt;AMG · TEYS · GBP">
+        <circle cx="770" cy="368" r="6" class="map-node-src"/>
+        <text class="map-label" x="770" y="390">AUSTRALIA</text>
       </g>
-      <g class="map-node-g"
-         data-tip="&lt;strong&gt;New Zealand&lt;/strong&gt;소고기 · 양고기&lt;br&gt;Alliance">
-        <circle cx="798" cy="357" r="5" class="map-node-src"/>
-        <text class="map-label" x="798" y="375">N. ZEALAND</text>
+      <g class="map-node-g" data-tip="&lt;strong&gt;New Zealand&lt;/strong&gt;소고기 · 양고기&lt;br&gt;Alliance">
+        <circle cx="940" cy="412" r="5" class="map-node-src"/>
+        <text class="map-label" x="916" y="430">N. ZEALAND</text>
       </g>
     </svg>
     <div class="map-tip" id="mapTip"></div>
