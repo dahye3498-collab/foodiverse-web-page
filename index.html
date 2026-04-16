@@ -654,19 +654,6 @@
       display: grid; grid-template-columns: 1fr 1fr;
       gap: 5rem; align-items: start;
     }
-    .contact-map {
-      margin-top: 4rem;
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      overflow: hidden;
-      background: var(--white);
-      height: 360px;
-    }
-    .contact-map iframe {
-      width: 100%; height: 100%;
-      border: 0;
-      filter: grayscale(0.3) contrast(1.05);
-    }
     .contact-info { }
     .contact-items { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1.5rem; }
     .contact-item { display: flex; gap: 1rem; align-items: flex-start; }
@@ -1158,10 +1145,10 @@
       <div class="cap-icon"><svg class="icon icon-lg"><use href="#i-chart"/></svg></div>
       <div class="cap-title"><strong>AI-POWERED</strong> Market Intelligence</div>
       <ul class="cap-list">
-        <li data-kr="주간 가격·트렌드 자동 리포트" data-en="Weekly automated price & trend reports">주간 가격·트렌드 자동 리포트</li>
+        <li data-kr="주간 시장리포트 발송" data-en="Weekly market reports">주간 시장리포트 발송</li>
         <li data-kr="질병·검역 이슈 실시간 알림" data-en="Real-time disease & quarantine alerts">질병·검역 이슈 실시간 알림</li>
         <li data-kr="글로벌 공급·수요 데이터 모니터링" data-en="Global supply & demand data monitoring">글로벌 공급·수요 데이터 모니터링</li>
-        <li data-kr="카카오 자동 배포 시스템" data-en="Kakao auto-distribution system">카카오 자동 배포 시스템</li>
+        <li data-kr="검역량 분석" data-en="Quarantine volume analytics">검역량 분석</li>
       </ul>
     </div>
     <div class="cap-card reveal reveal-delay-1">
@@ -1280,7 +1267,7 @@
           <div class="contact-item-icon"><svg class="icon"><use href="#i-pin"/></svg></div>
           <div class="contact-item-text">
             <div class="contact-item-label" data-kr="Location" data-en="Location">Location</div>
-            <div class="contact-item-value" data-kr="서울특별시 강남구" data-en="Gangnam-gu, Seoul, Republic of Korea">서울특별시 강남구</div>
+            <div class="contact-item-value" data-kr="대한민국 서울" data-en="Seoul, Republic of Korea">대한민국 서울</div>
           </div>
         </div>
         <div class="contact-item">
@@ -1361,14 +1348,6 @@
       </form>
     </div>
   </div>
-  <div class="contact-map reveal">
-    <iframe
-      src="https://www.google.com/maps?q=Gangnam-gu,Seoul,South+Korea&output=embed"
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade"
-      allowfullscreen>
-    </iframe>
-  </div>
 </section>
 
 <!-- FOOTER -->
@@ -1422,7 +1401,7 @@
       <ul class="footer-list">
         <li>
           <span class="label">Address</span>
-          <span data-kr="서울특별시 강남구" data-en="Gangnam-gu, Seoul, Korea">서울특별시 강남구</span>
+          <span data-kr="대한민국 서울" data-en="Seoul, Korea">대한민국 서울</span>
         </li>
         <li>
           <span class="label">Phone</span>
