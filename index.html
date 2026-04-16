@@ -36,14 +36,24 @@
     /* ── NAV ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(245,243,238,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      height: 68px;
+      background: rgba(245,243,238,0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid transparent;
+      height: 72px;
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 5vw;
+      transition: height 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
     }
-    .nav-logo img { height: 32px; }
+    nav.scrolled {
+      height: 58px;
+      background: rgba(245,243,238,0.96);
+      border-bottom-color: var(--border);
+      box-shadow: 0 4px 24px rgba(44,24,16,0.06);
+    }
+    .nav-logo img { height: 32px; transition: height 0.25s ease; }
+    nav.scrolled .nav-logo img { height: 26px; }
+    .nav-right { display: flex; align-items: center; gap: 1.6rem; }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
     .nav-links a {
       font-family: 'Montserrat', sans-serif;
@@ -53,13 +63,35 @@
       transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--green); }
+    .nav-lang {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+      color: var(--brown-mid);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 0.25rem 0.1rem;
+      background: rgba(255,255,255,0.4);
+    }
+    .nav-lang button {
+      font: inherit; color: inherit; background: none;
+      border: none; cursor: pointer;
+      padding: 0.25rem 0.6rem;
+      border-radius: 16px;
+      transition: all 0.2s;
+    }
+    .nav-lang button.active {
+      background: var(--brown);
+      color: var(--white);
+    }
+    .nav-lang button:not(.active):hover { color: var(--green); }
     .nav-cta {
       font-family: 'Montserrat', sans-serif;
       font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em;
       text-transform: uppercase; text-decoration: none;
       background: var(--brown);
       color: var(--white);
-      padding: 0.6rem 1.4rem;
+      padding: 0.7rem 1.4rem;
       border-radius: 2px;
       transition: background 0.2s;
     }
@@ -78,6 +110,23 @@
         radial-gradient(ellipse at 80% 100%, rgba(109,179,58,0.06), transparent 55%),
         linear-gradient(180deg, #1F0F0A 0%, #2C1810 100%);
       color: var(--white);
+    }
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+      pointer-events: none;
+    }
+    #hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 110%, rgba(109,179,58,0.15), transparent 40%);
+      pointer-events: none;
     }
     .hero-inner {
       max-width: 1100px; width: 100%;
@@ -202,13 +251,27 @@
     /* ── SECTION COMMON ── */
     section { padding: 7rem 5vw; }
     .section-tag {
-      display: inline-flex; align-items: center; gap: 0.5rem;
+      display: inline-flex; align-items: center; gap: 0.6rem;
       font-family: 'Montserrat', sans-serif;
       font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em;
       text-transform: uppercase; color: var(--green);
       margin-bottom: 1rem;
     }
-    .section-tag::before { content: ''; width: 20px; height: 2px; background: var(--green); }
+    .section-tag .num {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 0.62rem; font-weight: 800; letter-spacing: 0.08em;
+      color: var(--green);
+      background: rgba(109,179,58,0.14);
+      border: 1px solid rgba(109,179,58,0.35);
+      padding: 0.15rem 0.5rem;
+      border-radius: 2px;
+    }
+    .section-tag .divider { width: 20px; height: 1px; background: var(--green); }
+    #capabilities .section-tag .num {
+      color: var(--green);
+      background: rgba(109,179,58,0.18);
+      border-color: rgba(109,179,58,0.45);
+    }
     .section-title {
       font-family: 'Montserrat', sans-serif;
       font-size: clamp(1.8rem, 2.8vw, 2.5rem);
@@ -247,8 +310,64 @@
     .stat-num em { font-style: normal; color: var(--green); }
     .stat-label { font-size: 0.78rem; color: var(--brown-light); }
 
+    /* ── SERVICES ── */
+    #services { background: var(--cream); }
+    .services-header { margin-bottom: 3.5rem; max-width: 760px; }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+    .service-card {
+      background: var(--white);
+      padding: 2.2rem 1.8rem 2rem;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      position: relative;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(44,24,16,0.08);
+      border-color: var(--green);
+    }
+    .service-num {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.72rem; font-weight: 800;
+      color: var(--green);
+      letter-spacing: 0.14em;
+      margin-bottom: 1.2rem;
+    }
+    .service-icon {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      color: var(--green);
+      background: rgba(109,179,58,0.1);
+      border: 1px solid rgba(109,179,58,0.25);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.4rem;
+    }
+    .service-title {
+      font-family: 'Pretendard', 'Montserrat', sans-serif;
+      font-size: 1.05rem; font-weight: 800;
+      color: var(--brown);
+      margin-bottom: 0.5rem;
+    }
+    .service-title-en {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.66rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--brown-light);
+      margin-bottom: 1rem;
+    }
+    .service-desc {
+      font-size: 0.86rem; line-height: 1.7;
+      color: var(--brown-mid);
+      word-break: keep-all;
+    }
+
     /* ── BRANDS ── */
-    #brands { background: var(--cream); }
+    #brands { background: var(--white); }
     .brands-header { margin-bottom: 3rem; }
     .section-desc strong { color: var(--brown); font-weight: 700; }
     .brands-more {
@@ -307,19 +426,47 @@
     .brand-card {
       background: var(--white);
       padding: 2rem 1.8rem;
-      transition: background 0.2s, transform 0.15s;
+      position: relative;
+      transition: background 0.25s, transform 0.2s;
       cursor: default;
+      overflow: hidden;
+    }
+    .brand-card::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 2px; background: var(--green);
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform 0.3s ease;
     }
     .brand-card:hover {
       background: var(--brown);
       transform: translateY(-2px);
     }
+    .brand-card:hover::before { transform: scaleY(1); }
     .brand-card:hover .brand-name,
     .brand-card:hover .brand-desc { color: var(--white); }
     .brand-card:hover .brand-origin { color: var(--green); }
+    .brand-card:hover .brand-flag {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.85);
+    }
+    .brand-flag {
+      position: absolute; top: 1.1rem; right: 1.1rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.6rem; font-weight: 800;
+      letter-spacing: 0.15em;
+      padding: 0.25rem 0.55rem;
+      border: 1px solid var(--border);
+      background: var(--cream);
+      color: var(--brown-mid);
+      border-radius: 2px;
+      transition: all 0.25s;
+    }
     .brand-name {
       font-family: 'Montserrat', sans-serif;
-      font-size: 1.3rem; font-weight: 800;
+      font-size: 1.35rem; font-weight: 800;
       color: var(--brown); margin-bottom: 0.3rem;
       transition: color 0.2s;
     }
@@ -327,11 +474,11 @@
       font-family: 'Montserrat', sans-serif;
       font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em;
       text-transform: uppercase; color: var(--green);
-      margin-bottom: 0.7rem;
+      margin-bottom: 0.8rem;
       transition: color 0.2s;
     }
     .brand-desc {
-      font-size: 0.82rem; line-height: 1.65;
+      font-size: 0.82rem; line-height: 1.7;
       color: var(--brown-mid);
       transition: color 0.2s;
     }
@@ -354,12 +501,13 @@
     }
     .cap-card:hover { background: rgba(109,179,58,0.15); }
     .cap-icon {
-      width: 44px; height: 44px;
+      width: 52px; height: 52px;
       border-radius: 50%;
-      background: rgba(109,179,58,0.2);
+      background: rgba(109,179,58,0.15);
+      border: 1px solid rgba(109,179,58,0.3);
+      color: var(--green);
       display: flex; align-items: center; justify-content: center;
-      margin-bottom: 1.2rem;
-      font-size: 1.2rem;
+      margin-bottom: 1.4rem;
     }
     .cap-title {
       font-family: 'Montserrat', sans-serif;
@@ -398,8 +546,13 @@
     }
     .flow-step:last-child::after { display: none; }
     .flow-icon {
-      font-size: 1.4rem; margin-bottom: 0.5rem;
-      display: block;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: rgba(109,179,58,0.1);
+      border: 1px solid rgba(109,179,58,0.3);
+      color: var(--green);
+      display: inline-flex; align-items: center; justify-content: center;
+      margin-bottom: 0.75rem;
     }
     .flow-name {
       font-family: 'Montserrat', sans-serif;
@@ -420,21 +573,109 @@
       border-radius: 2px;
     }
 
+    /* ── INSIGHTS ── */
+    #insights { background: var(--cream); }
+    .insights-header {
+      display: grid; grid-template-columns: 1fr auto;
+      align-items: end; gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    .insights-header-text { max-width: 700px; }
+    .insights-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; text-decoration: none;
+      color: var(--brown);
+      border-bottom: 1px solid var(--brown);
+      padding-bottom: 0.25rem;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .insights-link:hover { color: var(--green); border-color: var(--green); }
+    .insights-link .icon { width: 16px; height: 16px; stroke-width: 2; }
+    .insights-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .insight-card {
+      background: var(--white);
+      padding: 2rem 1.8rem;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+      display: flex; flex-direction: column; gap: 1rem;
+      cursor: pointer;
+    }
+    .insight-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(44,24,16,0.08);
+      border-color: var(--green);
+    }
+    .insight-meta {
+      display: flex; align-items: center; gap: 0.8rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.64rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+    }
+    .insight-date { color: var(--brown-light); }
+    .insight-category {
+      color: var(--green);
+      padding: 0.2rem 0.5rem;
+      background: rgba(109,179,58,0.1);
+      border: 1px solid rgba(109,179,58,0.25);
+      border-radius: 2px;
+    }
+    .insight-title {
+      font-family: 'Pretendard', 'Montserrat', sans-serif;
+      font-size: 1.05rem; font-weight: 800;
+      color: var(--brown);
+      line-height: 1.45;
+      word-break: keep-all;
+    }
+    .insight-excerpt {
+      font-size: 0.84rem; line-height: 1.7;
+      color: var(--brown-mid);
+      word-break: keep-all;
+      flex: 1;
+    }
+    .insight-readmore {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--brown);
+      transition: color 0.2s, gap 0.2s;
+    }
+    .insight-readmore .icon { width: 14px; height: 14px; stroke-width: 2; }
+    .insight-card:hover .insight-readmore { color: var(--green); gap: 0.65rem; }
+
     /* ── CONTACT ── */
     #contact { background: var(--cream-dark); }
     .contact-inner {
       display: grid; grid-template-columns: 1fr 1fr;
       gap: 5rem; align-items: start;
     }
+    .contact-map {
+      margin-top: 4rem;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      background: var(--white);
+      height: 360px;
+    }
+    .contact-map iframe {
+      width: 100%; height: 100%;
+      border: 0;
+      filter: grayscale(0.3) contrast(1.05);
+    }
     .contact-info { }
     .contact-items { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1.5rem; }
     .contact-item { display: flex; gap: 1rem; align-items: flex-start; }
     .contact-item-icon {
-      width: 40px; height: 40px; flex-shrink: 0;
+      width: 42px; height: 42px; flex-shrink: 0;
       background: var(--brown);
+      color: var(--green);
       border-radius: 2px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 1rem;
     }
     .contact-item-text { }
     .contact-item-label {
@@ -493,23 +734,103 @@
     /* ── FOOTER ── */
     footer {
       background: var(--brown);
-      padding: 3rem 5vw;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 1.5rem;
+      color: rgba(255,255,255,0.7);
+      padding: 5rem 5vw 2rem;
     }
-    .footer-logo img { height: 24px; }
-    .footer-copy {
-      font-size: 0.75rem; color: rgba(255,255,255,0.4);
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
     }
-    .footer-links { display: flex; gap: 1.5rem; }
-    .footer-links a {
+    .footer-brand-col .footer-logo img {
+      height: 28px; margin-bottom: 1.2rem;
+      filter: brightness(0) invert(1);
+      opacity: 0.95;
+    }
+    .footer-tagline {
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em;
-      text-transform: uppercase; text-decoration: none;
+      font-size: 0.78rem; letter-spacing: 0.1em;
       color: rgba(255,255,255,0.45);
+      line-height: 1.8;
+      max-width: 280px;
+    }
+    .footer-col-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem; font-weight: 800; letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 1.2rem;
+    }
+    .footer-list {
+      display: flex; flex-direction: column; gap: 0.7rem;
+      list-style: none;
+    }
+    .footer-list li, .footer-list a {
+      font-size: 0.84rem;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      transition: color 0.2s;
+      line-height: 1.5;
+    }
+    .footer-list a:hover { color: var(--green); }
+    .footer-list .label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      display: block; margin-bottom: 0.15rem;
+    }
+    .footer-social {
+      display: flex; gap: 0.6rem;
+      margin-top: 0.8rem;
+    }
+    .footer-social a {
+      width: 38px; height: 38px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50%;
+      color: rgba(255,255,255,0.55);
+      transition: all 0.2s;
+    }
+    .footer-social a:hover {
+      background: var(--green);
+      border-color: var(--green);
+      color: var(--white);
+    }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+      padding-top: 1.8rem;
+    }
+    .footer-copy {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.02em;
+    }
+    .footer-bottom-links { display: flex; gap: 1.2rem; }
+    .footer-bottom-links a {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; text-decoration: none;
+      color: rgba(255,255,255,0.4);
       transition: color 0.2s;
     }
-    .footer-links a:hover { color: var(--green); }
+    .footer-bottom-links a:hover { color: var(--green); }
+
+    /* ── ICONS ── */
+    .icon {
+      width: 22px; height: 22px;
+      stroke-width: 1.6;
+      stroke: currentColor;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+    .icon-lg { width: 28px; height: 28px; }
+    .icon-xl { width: 40px; height: 40px; stroke-width: 1.4; }
 
     /* ── SCROLL ANIMATION ── */
     .reveal {
@@ -523,6 +844,12 @@
     .reveal-delay-4 { transition-delay: 0.4s; }
 
     /* ── RESPONSIVE ── */
+    @media (max-width: 1100px) {
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .insights-grid { grid-template-columns: repeat(2, 1fr); }
+      .insights-grid .insight-card:last-child { grid-column: 1 / -1; }
+      .insights-header { grid-template-columns: 1fr; }
+    }
     @media (max-width: 900px) {
       #hero { padding: 120px 6vw 100px; min-height: 90vh; }
       .stats-strip {
@@ -535,33 +862,73 @@
       .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
       .brands-grid { grid-template-columns: 1fr 1fr; }
       .cap-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
       nav .nav-links { display: none; }
+      .nav-lang { display: none; }
+    }
+    @media (max-width: 700px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .insights-grid { grid-template-columns: 1fr; }
+      .insights-grid .insight-card:last-child { grid-column: auto; }
     }
     @media (max-width: 600px) {
       .brands-grid { grid-template-columns: 1fr; }
       .about-stats { grid-template-columns: 1fr 1fr; }
       .form-row { grid-template-columns: 1fr; }
-      footer { flex-direction: column; text-align: center; }
-      .footer-links { justify-content: center; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .footer-bottom-links { justify-content: center; }
       .hero-scroll { display: none; }
       .btn-primary, .btn-outline { padding: 0.95rem 1.8rem; font-size: 0.72rem; }
+      .contact-map { height: 280px; }
     }
   </style>
 </head>
 <body>
 
+<!-- SVG ICON SPRITE -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 21h18M6 17V10M10 17V6M14 17v-8M18 17v-4"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M9 13h6M9 17h6"/></symbol>
+    <symbol id="i-snow" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9L4.9 19.1"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24"><path d="M3 7h11v10H3zM14 11h4l3 3v3h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 22s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.4 2.1L8 9.7a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9A8.5 8.5 0 0 1 21 11.5z"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 2L2 8l10 6 10-6-10-6zM2 16l10 6 10-6M2 12l10 6 10-6"/></symbol>
+    <symbol id="i-linkedin" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8h4.56v13H.22zM8.5 8h4.37v1.78h.07c.61-1.15 2.1-2.36 4.33-2.36 4.62 0 5.47 3.04 5.47 7v6.58h-4.55v-5.83c0-1.4-.03-3.2-1.95-3.2-1.95 0-2.25 1.52-2.25 3.1V21H8.5z"/></symbol>
+    <symbol id="i-kakao" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 3C6.48 3 2 6.58 2 11c0 2.77 1.78 5.2 4.48 6.64L5.4 21.58c-.1.36.3.65.6.44l4.65-3.08c.44.04.89.06 1.35.06 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></symbol>
+  </defs>
+</svg>
+
 <!-- NAV -->
-<nav>
+<nav id="nav">
   <a href="#hero" class="nav-logo">
     <img src="logo.png" alt="FOODIVERSE">
   </a>
-  <ul class="nav-links">
-    <li><a href="#about">회사소개</a></li>
-    <li><a href="#brands">수입 브랜드</a></li>
-    <li><a href="#capabilities">역량</a></li>
-    <li><a href="#contact">문의</a></li>
-  </ul>
-  <a href="#contact" class="nav-cta">파트너십 문의</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#about" data-kr="회사소개" data-en="About">회사소개</a></li>
+      <li><a href="#services" data-kr="서비스" data-en="Services">서비스</a></li>
+      <li><a href="#brands" data-kr="브랜드" data-en="Brands">브랜드</a></li>
+      <li><a href="#capabilities" data-kr="역량" data-en="Capabilities">역량</a></li>
+      <li><a href="#insights" data-kr="인사이트" data-en="Insights">인사이트</a></li>
+      <li><a href="#contact" data-kr="문의" data-en="Contact">문의</a></li>
+    </ul>
+    <div class="nav-lang" role="group" aria-label="Language">
+      <button data-lang="kr" class="active">KR</button>
+      <button data-lang="en">EN</button>
+    </div>
+    <a href="#contact" class="nav-cta" data-kr="파트너십 문의" data-en="Partnership">파트너십 문의</a>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -571,16 +938,16 @@
       <img src="logo.png" alt="FOODIVERSE" />
     </div>
     <div class="hero-badge reveal reveal-delay-1">Since 2012 · Korea's Premium Meat Import Partner</div>
-    <h1 class="hero-headline reveal reveal-delay-2">
+    <h1 class="hero-headline reveal reveal-delay-2" data-kr-html="세계의 &lt;em&gt;프리미엄 축산물&lt;/em&gt;,&lt;br&gt;한국의 식탁으로." data-en-html="The world's &lt;em&gt;premium meat&lt;/em&gt;,&lt;br&gt;to Korean tables.">
       세계의 <em>프리미엄 축산물</em>,<br>한국의 식탁으로.
     </h1>
-    <p class="hero-sub reveal reveal-delay-3">
+    <p class="hero-sub reveal reveal-delay-3" data-kr-html="소고기·돼지고기·양고기의 글로벌 직수입 및 유통 전문 기업.&lt;br&gt;엄선된 글로벌 파트너십으로 최상위 품질의 축산물을 안정적으로 공급합니다." data-en-html="Specialists in global direct-import and distribution of beef, pork, and lamb.&lt;br&gt;Curated global partnerships deliver top-tier quality with reliable supply.">
       소고기·돼지고기·양고기의 글로벌 직수입 및 유통 전문 기업.<br>
       엄선된 글로벌 파트너십으로 최상위 품질의 축산물을 안정적으로 공급합니다.
     </p>
     <div class="hero-actions reveal reveal-delay-4">
-      <a href="#brands" class="btn-primary">수입 브랜드 보기</a>
-      <a href="#contact" class="btn-outline">파트너십 문의</a>
+      <a href="#brands" class="btn-primary" data-kr="수입 브랜드 보기" data-en="Our Brands">수입 브랜드 보기</a>
+      <a href="#contact" class="btn-outline" data-kr="파트너십 문의" data-en="Partnership">파트너십 문의</a>
     </div>
   </div>
   <div class="hero-scroll reveal reveal-delay-4">Scroll</div>
@@ -590,15 +957,15 @@
 <section class="stats-strip">
   <div class="kpi-item reveal">
     <div class="kpi-number">100<span>B+</span></div>
-    <div class="kpi-label">KRW 연매출</div>
+    <div class="kpi-label" data-kr="KRW 연매출" data-en="Annual Revenue (KRW)">KRW 연매출</div>
   </div>
   <div class="kpi-item reveal reveal-delay-1">
     <div class="kpi-number">1,000<span>+</span></div>
-    <div class="kpi-label">컨테이너</div>
+    <div class="kpi-label" data-kr="컨테이너" data-en="Containers">컨테이너</div>
   </div>
   <div class="kpi-item reveal reveal-delay-2">
     <div class="kpi-number"><span>$</span>159M</div>
-    <div class="kpi-label">누적 수입액</div>
+    <div class="kpi-label" data-kr="누적 수입액" data-en="Cumulative Imports">누적 수입액</div>
   </div>
   <div class="kpi-item reveal reveal-delay-3">
     <div class="kpi-number">9<span>+</span></div>
@@ -611,11 +978,11 @@
 <section id="about">
   <div class="about-inner">
     <div class="about-text">
-      <div class="section-tag reveal">About FOODIVERSE</div>
-      <h2 class="section-title reveal reveal-delay-1">
+      <div class="section-tag reveal"><span class="num">01</span><span class="divider"></span><span data-kr="About FOODIVERSE" data-en="About FOODIVERSE">About FOODIVERSE</span></div>
+      <h2 class="section-title reveal reveal-delay-1" data-kr-html="글로벌 소싱부터&lt;br&gt;전국 유통까지" data-en-html="From global sourcing&lt;br&gt;to nationwide distribution">
         글로벌 소싱부터<br>전국 유통까지
       </h2>
-      <p class="section-desc reveal reveal-delay-2">
+      <p class="section-desc reveal reveal-delay-2" data-kr="㈜푸디버스는 2012년 설립 이래 미국·호주·뉴질랜드·캐나다·스페인 등 세계 주요 축산물 생산국의 프리미엄 브랜드를 직수입하여 국내 외식·유통 채널에 공급하고 있습니다." data-en="Since 2012, FOODIVERSE has been directly importing premium brands from the world's major meat-producing regions — the U.S., Australia, New Zealand, Canada, Spain — and supplying Korea's foodservice and distribution channels.">
         ㈜푸디버스는 2012년 설립 이래 미국·호주·뉴질랜드·캐나다·스페인 등
         세계 주요 축산물 생산국의 프리미엄 브랜드를 직수입하여
         국내 외식·유통 채널에 공급하고 있습니다.
@@ -642,12 +1009,66 @@
   </div>
 </section>
 
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header">
+    <div class="section-tag reveal"><span class="num">02</span><span class="divider"></span><span data-kr="Services" data-en="Services">Services</span></div>
+    <h2 class="section-title reveal reveal-delay-1" data-kr="글로벌 밸류체인 전 과정을 책임집니다" data-en="We handle the entire global value chain">글로벌 밸류체인 전 과정을 책임집니다</h2>
+    <p class="section-desc reveal reveal-delay-2" data-kr="생산지 소싱부터 통관·냉장 물류·국내 유통까지, 단일 파트너로 완결 가능한 원스톱 수입 솔루션을 제공합니다." data-en="From origin sourcing through customs, cold-chain logistics, and domestic distribution — a complete one-stop import solution under a single partnership.">
+      생산지 소싱부터 통관·냉장 물류·국내 유통까지, 단일 파트너로 완결 가능한
+      원스톱 수입 솔루션을 제공합니다.
+    </p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-num">01</div>
+      <div class="service-icon"><svg class="icon icon-lg"><use href="#i-globe"/></svg></div>
+      <div class="service-title" data-kr="글로벌 소싱" data-en="Global Sourcing">글로벌 소싱</div>
+      <div class="service-title-en">Global Sourcing</div>
+      <p class="service-desc" data-kr="세계 주요 생산국의 프리미엄 브랜드와 직접 협상하여 최상위 품질과 경쟁력 있는 가격을 확보합니다." data-en="We negotiate directly with premium producers in the world's major origins to secure top quality at competitive prices.">
+        세계 주요 생산국의 프리미엄 브랜드와 직접 협상하여
+        최상위 품질과 경쟁력 있는 가격을 확보합니다.
+      </p>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-num">02</div>
+      <div class="service-icon"><svg class="icon icon-lg"><use href="#i-doc"/></svg></div>
+      <div class="service-title" data-kr="직수입 · 통관" data-en="Direct Import">직수입 · 통관</div>
+      <div class="service-title-en">Direct Import</div>
+      <p class="service-desc" data-kr="자체 수입 라이선스와 축적된 통관 노하우를 바탕으로 신속·정확하게 컨테이너 단위의 대량 수입을 처리합니다." data-en="Leveraging our own import licenses and accumulated customs expertise to process container-scale imports quickly and accurately.">
+        자체 수입 라이선스와 축적된 통관 노하우를 바탕으로
+        신속·정확하게 컨테이너 단위의 대량 수입을 처리합니다.
+      </p>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-num">03</div>
+      <div class="service-icon"><svg class="icon icon-lg"><use href="#i-snow"/></svg></div>
+      <div class="service-title" data-kr="콜드체인 유통" data-en="Cold Chain Logistics">콜드체인 유통</div>
+      <div class="service-title-en">Cold Chain</div>
+      <p class="service-desc" data-kr="생산지에서 식탁까지, 전 구간 온도 관리 기반의 냉장·냉동 물류로 품질 손실 없이 안전하게 배송합니다." data-en="From origin to table, end-to-end temperature-controlled logistics ensure product quality is preserved throughout.">
+        생산지에서 식탁까지, 전 구간 온도 관리 기반의
+        냉장·냉동 물류로 품질 손실 없이 안전하게 배송합니다.
+      </p>
+    </div>
+    <div class="service-card reveal reveal-delay-3">
+      <div class="service-num">04</div>
+      <div class="service-icon"><svg class="icon icon-lg"><use href="#i-layers"/></svg></div>
+      <div class="service-title" data-kr="B2B 공급" data-en="B2B Supply">B2B 공급</div>
+      <div class="service-title-en">B2B Supply</div>
+      <p class="service-desc" data-kr="호텔·레스토랑·프랜차이즈·대형 유통·제조 등 다양한 채널에 최적화된 규격과 조건으로 안정적으로 공급합니다." data-en="Reliable supply to hotels, restaurants, franchises, large retailers, and manufacturers, each tailored to their specific requirements.">
+        호텔·레스토랑·프랜차이즈·대형 유통·제조 등 다양한 채널에
+        최적화된 규격과 조건으로 안정적으로 공급합니다.
+      </p>
+    </div>
+  </div>
+</section>
+
 <!-- BRANDS -->
 <section id="brands">
   <div class="brands-header">
-    <div class="section-tag reveal">Direct Import Brands</div>
-    <h2 class="section-title reveal reveal-delay-1">9개 핵심 직수입 파트너</h2>
-    <p class="section-desc reveal reveal-delay-2">
+    <div class="section-tag reveal"><span class="num">03</span><span class="divider"></span><span data-kr="Direct Import Brands" data-en="Direct Import Brands">Direct Import Brands</span></div>
+    <h2 class="section-title reveal reveal-delay-1" data-kr="9개 핵심 직수입 파트너" data-en="9 Core Direct Import Partners">9개 핵심 직수입 파트너</h2>
+    <p class="section-desc reveal reveal-delay-2" data-kr-html="세계 최고 수준의 9개 브랜드와 직거래 계약을 체결하고, 이 외에도 &lt;strong&gt;다수의 글로벌 생산사·공급사&lt;/strong&gt;와 전략적 파트너십을 운영하여 안정적인 공급망과 경쟁력 있는 가격을 실현합니다." data-en-html="We hold direct contracts with 9 world-class brands and, beyond them, operate strategic partnerships with &lt;strong&gt;many additional global producers and suppliers&lt;/strong&gt; — securing reliable supply chains and competitive pricing.">
       세계 최고 수준의 9개 브랜드와 직거래 계약을 체결하고,
       이 외에도 <strong>다수의 글로벌 생산사·공급사</strong>와 전략적 파트너십을 운영하여
       안정적인 공급망과 경쟁력 있는 가격을 실현합니다.
@@ -655,46 +1076,55 @@
   </div>
   <div class="brands-grid">
     <div class="brand-card reveal">
+      <span class="brand-flag">USA</span>
       <div class="brand-name">EXCEL</div>
       <div class="brand-origin">USA · Beef</div>
       <div class="brand-desc">미국 최대 곡물비육 소고기 브랜드. 안정적 품질과 폭넓은 부위 라인업.</div>
     </div>
     <div class="brand-card reveal reveal-delay-1">
+      <span class="brand-flag">AUS</span>
       <div class="brand-name">AMG</div>
       <div class="brand-origin">Australia · Wagyu</div>
       <div class="brand-desc">호주산 와규 및 목초비육 소고기. 탁월한 마블링과 풍미로 프리미엄 시장을 선도.</div>
     </div>
     <div class="brand-card reveal reveal-delay-2">
+      <span class="brand-flag">NZL</span>
       <div class="brand-name">ALLIANCE</div>
       <div class="brand-origin">New Zealand · Beef &amp; Lamb</div>
       <div class="brand-desc">100% 뉴질랜드 목초사육 소고기·양고기. 청정 자연 그대로의 깨끗한 맛.</div>
     </div>
     <div class="brand-card reveal">
+      <span class="brand-flag">AUS</span>
       <div class="brand-name">TEYS</div>
       <div class="brand-origin">Australia</div>
       <div class="brand-desc">호주 프리미엄 곡물/목초 비육 소고기 전문 브랜드.</div>
     </div>
     <div class="brand-card reveal reveal-delay-1">
+      <span class="brand-flag">AUS</span>
       <div class="brand-name">GBP</div>
       <div class="brand-origin">Australia</div>
       <div class="brand-desc">고품질 소고기 가공 전문 브랜드. 다양한 부위와 규격 대응.</div>
     </div>
     <div class="brand-card reveal reveal-delay-2">
+      <span class="brand-flag">GLB</span>
       <div class="brand-name">JBS</div>
       <div class="brand-origin">Global</div>
       <div class="brand-desc">세계 최대 단백질 기업. 안정적 대량 공급 및 글로벌 품질 기준.</div>
     </div>
     <div class="brand-card reveal">
+      <span class="brand-flag">USA</span>
       <div class="brand-name">SWIFT</div>
       <div class="brand-origin">USA</div>
       <div class="brand-desc">신뢰할 수 있는 미국산 돼지고기·소고기 브랜드.</div>
     </div>
     <div class="brand-card reveal reveal-delay-1">
+      <span class="brand-flag">CAN</span>
       <div class="brand-name">OLYMEL</div>
       <div class="brand-origin">Canada</div>
       <div class="brand-desc">캐나다 프리미엄 돼지고기 전문 브랜드. 높은 위생 기준과 일관된 품질.</div>
     </div>
     <div class="brand-card reveal reveal-delay-2">
+      <span class="brand-flag">ESP</span>
       <div class="brand-name">BATALLE</div>
       <div class="brand-origin">Spain</div>
       <div class="brand-desc">'El Único' 스페인 두록 돼지고기. 독보적인 풍미와 고급스러운 육질.</div>
@@ -705,9 +1135,9 @@
   <div class="brands-more reveal">
     <div class="brands-more-left">
       <div class="brands-more-label">+ More Global Partners</div>
-      <div class="brands-more-headline">그리고, 다수의 글로벌 파트너사</div>
+      <div class="brands-more-headline" data-kr="그리고, 다수의 글로벌 파트너사" data-en="And many more global partners">그리고, 다수의 글로벌 파트너사</div>
     </div>
-    <div class="brands-more-text">
+    <div class="brands-more-text" data-kr-html="위 9개 핵심 파트너 외에도 &lt;strong&gt;북미·남미·유럽·오세아니아&lt;/strong&gt;의 다양한 생산사·공급사와 지속적으로 협력하며,&lt;br&gt;시장 수요와 트렌드에 맞는 다양한 품목·규격을 유연하게 소싱하고 있습니다." data-en-html="Beyond the 9 core partners above, we continuously collaborate with diverse producers and suppliers across &lt;strong&gt;North America, South America, Europe, and Oceania&lt;/strong&gt;,&lt;br&gt;flexibly sourcing a wide range of items and specifications tailored to market demand and trends.">
       위 9개 핵심 파트너 외에도 <strong>북미·남미·유럽·오세아니아</strong>의 다양한
       생산사·공급사와 지속적으로 협력하며,<br>시장 수요와 트렌드에 맞는
       다양한 품목·규격을 유연하게 소싱하고 있습니다.
@@ -717,50 +1147,121 @@
 
 <!-- CAPABILITIES -->
 <section id="capabilities">
-  <div class="section-tag">Business Capabilities</div>
-  <h2 class="section-title reveal">차별화된 역량</h2>
-  <p class="section-desc reveal reveal-delay-1">
+  <div class="section-tag reveal"><span class="num">04</span><span class="divider"></span><span data-kr="Business Capabilities" data-en="Business Capabilities">Business Capabilities</span></div>
+  <h2 class="section-title reveal" data-kr="차별화된 역량" data-en="Differentiated Capabilities">차별화된 역량</h2>
+  <p class="section-desc reveal reveal-delay-1" data-kr="AI 기반 시장 인텔리전스부터 원스톱 수입 솔루션까지, 단순 거래를 넘어 진정한 파트너십을 제공합니다." data-en="From AI-powered market intelligence to a one-stop import solution — a genuine partnership, not just transactions.">
     AI 기반 시장 인텔리전스부터 원스톱 수입 솔루션까지,
     단순 거래를 넘어 진정한 파트너십을 제공합니다.
   </p>
   <div class="cap-grid">
     <div class="cap-card reveal">
-      <div class="cap-icon">📊</div>
+      <div class="cap-icon"><svg class="icon icon-lg"><use href="#i-chart"/></svg></div>
       <div class="cap-title"><strong>AI-POWERED</strong> Market Intelligence</div>
       <ul class="cap-list">
-        <li>주간 가격·트렌드 자동 리포트</li>
-        <li>질병·검역 이슈 실시간 알림</li>
-        <li>TRQ 쿼터 실시간 모니터링</li>
-        <li>카카오 자동 배포 시스템</li>
+        <li data-kr="주간 가격·트렌드 자동 리포트" data-en="Weekly automated price & trend reports">주간 가격·트렌드 자동 리포트</li>
+        <li data-kr="질병·검역 이슈 실시간 알림" data-en="Real-time disease & quarantine alerts">질병·검역 이슈 실시간 알림</li>
+        <li data-kr="글로벌 공급·수요 데이터 모니터링" data-en="Global supply & demand data monitoring">글로벌 공급·수요 데이터 모니터링</li>
+        <li data-kr="카카오 자동 배포 시스템" data-en="Kakao auto-distribution system">카카오 자동 배포 시스템</li>
       </ul>
     </div>
     <div class="cap-card reveal reveal-delay-1">
-      <div class="cap-icon">🔗</div>
+      <div class="cap-icon"><svg class="icon icon-lg"><use href="#i-link"/></svg></div>
       <div class="cap-title">One-Stop <strong>Import Solution</strong></div>
       <div class="cap-flow">
         <div class="flow-step">
-          <span class="flow-icon">🌐</span>
-          <div class="flow-name">소싱</div>
+          <span class="flow-icon"><svg class="icon"><use href="#i-globe"/></svg></span>
+          <div class="flow-name" data-kr="소싱" data-en="Sourcing">소싱</div>
         </div>
         <div class="flow-step">
-          <span class="flow-icon">📋</span>
-          <div class="flow-name">통관</div>
+          <span class="flow-icon"><svg class="icon"><use href="#i-doc"/></svg></span>
+          <div class="flow-name" data-kr="통관" data-en="Customs">통관</div>
         </div>
         <div class="flow-step">
-          <span class="flow-icon">❄️</span>
-          <div class="flow-name">냉장물류</div>
+          <span class="flow-icon"><svg class="icon"><use href="#i-snow"/></svg></span>
+          <div class="flow-name" data-kr="냉장물류" data-en="Cold Chain">냉장물류</div>
         </div>
         <div class="flow-step">
-          <span class="flow-icon">🚚</span>
-          <div class="flow-name">유통</div>
+          <span class="flow-icon"><svg class="icon"><use href="#i-truck"/></svg></span>
+          <div class="flow-name" data-kr="유통" data-en="Distribution">유통</div>
         </div>
       </div>
       <div class="cap-compliance">
-        <span class="badge">FTA 원산지 인증</span>
-        <span class="badge">TRQ 쿼터 관리</span>
+        <span class="badge">Global Sourcing</span>
+        <span class="badge">Cold Chain</span>
         <span class="badge">Compliance Support</span>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- INSIGHTS -->
+<section id="insights">
+  <div class="insights-header">
+    <div class="insights-header-text">
+      <div class="section-tag reveal"><span class="num">05</span><span class="divider"></span><span data-kr="Market Insights" data-en="Market Insights">Market Insights</span></div>
+      <h2 class="section-title reveal reveal-delay-1" data-kr="주간 글로벌 축산물 시장 리포트" data-en="Weekly Global Meat Market Reports">주간 글로벌 축산물 시장 리포트</h2>
+      <p class="section-desc reveal reveal-delay-2" data-kr="자체 개발한 AI 기반 분석 시스템으로 가격·수급·이슈를 매주 큐레이션합니다. 파트너사에 실시간으로 배포됩니다." data-en="Prices, supply-demand, and issues curated weekly through our proprietary AI analytics — delivered to partners in real time.">
+        자체 개발한 AI 기반 분석 시스템으로 가격·수급·이슈를 매주 큐레이션합니다.
+        파트너사에 실시간으로 배포됩니다.
+      </p>
+    </div>
+    <a href="#contact" class="insights-link reveal reveal-delay-2" data-kr="전체 리포트 구독 문의" data-en="Subscribe to Reports">
+      <span data-kr="전체 리포트 구독 문의" data-en="Subscribe to Reports">전체 리포트 구독 문의</span>
+      <svg class="icon"><use href="#i-arrow-right"/></svg>
+    </a>
+  </div>
+  <div class="insights-grid">
+    <article class="insight-card reveal">
+      <div class="insight-meta">
+        <span class="insight-date">2026.04.14</span>
+        <span class="insight-category" data-kr="Weekly Report" data-en="Weekly Report">Weekly Report</span>
+      </div>
+      <h3 class="insight-title" data-kr="미국산 초이스 등급, 4주 연속 하락세 — 재고 누적이 주요 원인" data-en="U.S. Choice grade prices decline for 4 straight weeks — inventory buildup the key driver">
+        미국산 초이스 등급, 4주 연속 하락세 — 재고 누적이 주요 원인
+      </h3>
+      <p class="insight-excerpt" data-kr="USDA 주간 데이터 기반 분석. 냉장 컷 기준 전년 동기 대비 가격 조정이 뚜렷하며, 수입 전략 재조정 시점으로 판단됩니다." data-en="Based on USDA weekly data, chilled-cut prices show clear YoY adjustment — a timely window to reassess import strategy.">
+        USDA 주간 데이터 기반 분석. 냉장 컷 기준 전년 동기 대비 가격 조정이
+        뚜렷하며, 수입 전략 재조정 시점으로 판단됩니다.
+      </p>
+      <span class="insight-readmore" data-kr="자세히" data-en="Read More">
+        <span data-kr="자세히" data-en="Read More">자세히</span>
+        <svg class="icon"><use href="#i-arrow-right"/></svg>
+      </span>
+    </article>
+    <article class="insight-card reveal reveal-delay-1">
+      <div class="insight-meta">
+        <span class="insight-date">2026.04.07</span>
+        <span class="insight-category" data-kr="Alert" data-en="Alert">Alert</span>
+      </div>
+      <h3 class="insight-title" data-kr="호주 일부 지역 가뭄 심화 — 와규·목초우 공급 영향 전망" data-en="Drought intensifies in parts of Australia — potential impact on Wagyu and grass-fed supply">
+        호주 일부 지역 가뭄 심화 — 와규·목초우 공급 영향 전망
+      </h3>
+      <p class="insight-excerpt" data-kr="뉴사우스웨일스·퀸즐랜드 주요 산지의 기상 데이터를 종합한 리포트. 2분기 수급 압박 가능성에 대한 선제적 대응이 필요합니다." data-en="A report combining weather data from key origin regions in NSW and Queensland. Proactive planning is needed for potential Q2 supply pressure.">
+        뉴사우스웨일스·퀸즐랜드 주요 산지의 기상 데이터를 종합한 리포트.
+        2분기 수급 압박 가능성에 대한 선제적 대응이 필요합니다.
+      </p>
+      <span class="insight-readmore" data-kr="자세히" data-en="Read More">
+        <span data-kr="자세히" data-en="Read More">자세히</span>
+        <svg class="icon"><use href="#i-arrow-right"/></svg>
+      </span>
+    </article>
+    <article class="insight-card reveal reveal-delay-2">
+      <div class="insight-meta">
+        <span class="insight-date">2026.03.31</span>
+        <span class="insight-category" data-kr="Trend" data-en="Trend">Trend</span>
+      </div>
+      <h3 class="insight-title" data-kr="국내 프리미엄 돈육 수요 확대 — 스페인 두록 비중 상승" data-en="Premium pork demand rising in Korea — Spanish Duroc share on the climb">
+        국내 프리미엄 돈육 수요 확대 — 스페인 두록 비중 상승
+      </h3>
+      <p class="insight-excerpt" data-kr="외식 채널 중심으로 숙성·풍미 중시 트렌드가 뚜렷. 스페인·유럽 프리미엄 품종 포지셔닝이 유효한 전략입니다." data-en="Aging and flavor-forward trends are strengthening in foodservice channels. Positioning Spanish and European premium breeds remains a compelling strategy.">
+        외식 채널 중심으로 숙성·풍미 중시 트렌드가 뚜렷.
+        스페인·유럽 프리미엄 품종 포지셔닝이 유효한 전략입니다.
+      </p>
+      <span class="insight-readmore" data-kr="자세히" data-en="Read More">
+        <span data-kr="자세히" data-en="Read More">자세히</span>
+        <svg class="icon"><use href="#i-arrow-right"/></svg>
+      </span>
+    </article>
   </div>
 </section>
 
@@ -768,22 +1269,22 @@
 <section id="contact">
   <div class="contact-inner">
     <div class="contact-info">
-      <div class="section-tag reveal">Contact</div>
-      <h2 class="section-title reveal reveal-delay-1">파트너십 문의</h2>
-      <p class="section-desc reveal reveal-delay-2">
+      <div class="section-tag reveal"><span class="num">06</span><span class="divider"></span><span data-kr="Contact" data-en="Contact">Contact</span></div>
+      <h2 class="section-title reveal reveal-delay-1" data-kr="파트너십 문의" data-en="Partnership Inquiry">파트너십 문의</h2>
+      <p class="section-desc reveal reveal-delay-2" data-kr-html="글로벌 소싱, 수입 대행, 공급 협력 등&lt;br&gt;어떤 문의든 편하게 연락 주세요." data-en-html="Global sourcing, import representation, supply collaboration —&lt;br&gt;reach out about anything.">
         글로벌 소싱, 수입 대행, 공급 협력 등<br>
         어떤 문의든 편하게 연락 주세요.
       </p>
       <div class="contact-items reveal reveal-delay-3">
         <div class="contact-item">
-          <div class="contact-item-icon">📍</div>
+          <div class="contact-item-icon"><svg class="icon"><use href="#i-pin"/></svg></div>
           <div class="contact-item-text">
-            <div class="contact-item-label">Location</div>
-            <div class="contact-item-value">Seoul, Republic of Korea</div>
+            <div class="contact-item-label" data-kr="Location" data-en="Location">Location</div>
+            <div class="contact-item-value" data-kr="서울특별시 강남구" data-en="Gangnam-gu, Seoul, Republic of Korea">서울특별시 강남구</div>
           </div>
         </div>
         <div class="contact-item">
-          <div class="contact-item-icon">📞</div>
+          <div class="contact-item-icon"><svg class="icon"><use href="#i-phone"/></svg></div>
           <div class="contact-item-text">
             <div class="contact-item-label">Phone</div>
             <div class="contact-item-value">
@@ -792,7 +1293,7 @@
           </div>
         </div>
         <div class="contact-item">
-          <div class="contact-item-icon">✉️</div>
+          <div class="contact-item-icon"><svg class="icon"><use href="#i-mail"/></svg></div>
           <div class="contact-item-text">
             <div class="contact-item-label">Email</div>
             <div class="contact-item-value">
@@ -801,7 +1302,23 @@
           </div>
         </div>
         <div class="contact-item">
-          <div class="contact-item-icon">🌐</div>
+          <div class="contact-item-icon"><svg class="icon"><use href="#i-clock"/></svg></div>
+          <div class="contact-item-text">
+            <div class="contact-item-label" data-kr="Business Hours" data-en="Business Hours">Business Hours</div>
+            <div class="contact-item-value" data-kr="평일 09:00 — 18:00 (토·일·공휴일 휴무)" data-en="Mon — Fri 09:00 — 18:00 (Closed on weekends & holidays)">평일 09:00 — 18:00 (토·일·공휴일 휴무)</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon"><svg class="icon"><use href="#i-chat"/></svg></div>
+          <div class="contact-item-text">
+            <div class="contact-item-label">Kakao Channel</div>
+            <div class="contact-item-value">
+              <a href="https://pf.kakao.com/_foodiverse" target="_blank">@foodiverse</a>
+            </div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon"><svg class="icon"><use href="#i-globe"/></svg></div>
           <div class="contact-item-text">
             <div class="contact-item-label">Website</div>
             <div class="contact-item-value">
@@ -812,89 +1329,209 @@
       </div>
     </div>
     <div class="contact-form-area reveal reveal-delay-2">
-      <div class="form-title">문의 양식</div>
+      <div class="form-title" data-kr="문의 양식" data-en="Inquiry Form">문의 양식</div>
       <form onsubmit="handleSubmit(event)">
         <div class="form-row">
           <div class="form-group">
-            <input type="text" placeholder="성함 *" required>
+            <input type="text" placeholder="성함 *" data-kr-ph="성함 *" data-en-ph="Name *" required>
           </div>
           <div class="form-group">
-            <input type="text" placeholder="회사명">
+            <input type="text" placeholder="회사명" data-kr-ph="회사명" data-en-ph="Company">
           </div>
         </div>
         <div class="form-group">
-          <input type="email" placeholder="이메일 *" required>
+          <input type="email" placeholder="이메일 *" data-kr-ph="이메일 *" data-en-ph="Email *" required>
         </div>
         <div class="form-group">
-          <input type="tel" placeholder="연락처">
+          <input type="tel" placeholder="연락처" data-kr-ph="연락처" data-en-ph="Phone">
         </div>
         <div class="form-group">
           <select>
-            <option value="">문의 유형 선택</option>
-            <option>글로벌 소싱 협력</option>
-            <option>수입 대행 문의</option>
-            <option>공급/납품 문의</option>
-            <option>기타</option>
+            <option value="" data-kr="문의 유형 선택" data-en="Inquiry type">문의 유형 선택</option>
+            <option data-kr="글로벌 소싱 협력" data-en="Global sourcing partnership">글로벌 소싱 협력</option>
+            <option data-kr="수입 대행 문의" data-en="Import representation">수입 대행 문의</option>
+            <option data-kr="공급/납품 문의" data-en="Supply / delivery">공급/납품 문의</option>
+            <option data-kr="기타" data-en="Other">기타</option>
           </select>
         </div>
         <div class="form-group">
-          <textarea placeholder="문의 내용을 입력해 주세요."></textarea>
+          <textarea placeholder="문의 내용을 입력해 주세요." data-kr-ph="문의 내용을 입력해 주세요." data-en-ph="Please enter your inquiry."></textarea>
         </div>
-        <button type="submit" class="form-submit">문의하기 →</button>
+        <button type="submit" class="form-submit" data-kr="문의하기 →" data-en="Send Inquiry →">문의하기 →</button>
       </form>
     </div>
+  </div>
+  <div class="contact-map reveal">
+    <iframe
+      src="https://www.google.com/maps?q=Gangnam-gu,Seoul,South+Korea&output=embed"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      allowfullscreen>
+    </iframe>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">
-    <img src="logo.png" alt="FOODIVERSE">
+  <div class="footer-grid">
+    <div class="footer-brand-col">
+      <div class="footer-logo">
+        <img src="logo.png" alt="FOODIVERSE">
+      </div>
+      <div class="footer-tagline" data-kr="Korea's Premium Meat Import Partner. 세계의 프리미엄 축산물을 한국의 식탁으로." data-en="Korea's Premium Meat Import Partner. Connecting the world's premium meat to Korean tables.">
+        Korea's Premium Meat Import Partner.<br>
+        세계의 프리미엄 축산물을 한국의 식탁으로.
+      </div>
+      <div class="footer-social">
+        <a href="mailto:import@foodiverse.co.kr" aria-label="Email"><svg class="icon"><use href="#i-mail"/></svg></a>
+        <a href="https://pf.kakao.com/_foodiverse" target="_blank" aria-label="Kakao"><svg class="icon"><use href="#i-kakao"/></svg></a>
+        <a href="https://www.linkedin.com" target="_blank" aria-label="LinkedIn"><svg class="icon"><use href="#i-linkedin"/></svg></a>
+      </div>
+    </div>
+
+    <div>
+      <div class="footer-col-title" data-kr="Sitemap" data-en="Sitemap">Sitemap</div>
+      <ul class="footer-list">
+        <li><a href="#about" data-kr="회사소개" data-en="About">회사소개</a></li>
+        <li><a href="#services" data-kr="서비스" data-en="Services">서비스</a></li>
+        <li><a href="#brands" data-kr="수입 브랜드" data-en="Brands">수입 브랜드</a></li>
+        <li><a href="#capabilities" data-kr="역량" data-en="Capabilities">역량</a></li>
+        <li><a href="#insights" data-kr="인사이트" data-en="Insights">인사이트</a></li>
+        <li><a href="#contact" data-kr="문의" data-en="Contact">문의</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title" data-kr="Company" data-en="Company">Company</div>
+      <ul class="footer-list">
+        <li>㈜푸디버스</li>
+        <li>FOODIVERSE CO., LTD.</li>
+        <li>
+          <span class="label" data-kr="Established" data-en="Established">Established</span>
+          2012
+        </li>
+        <li>
+          <span class="label" data-kr="Business" data-en="Business">Business</span>
+          <span data-kr="축산물 수입·유통" data-en="Meat Import & Distribution">축산물 수입·유통</span>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title" data-kr="Contact" data-en="Contact">Contact</div>
+      <ul class="footer-list">
+        <li>
+          <span class="label">Address</span>
+          <span data-kr="서울특별시 강남구" data-en="Gangnam-gu, Seoul, Korea">서울특별시 강남구</span>
+        </li>
+        <li>
+          <span class="label">Phone</span>
+          <a href="tel:+82222998912">+82 2-2299-8912</a>
+        </li>
+        <li>
+          <span class="label">Email</span>
+          <a href="mailto:import@foodiverse.co.kr">import@foodiverse.co.kr</a>
+        </li>
+        <li>
+          <span class="label">Hours</span>
+          <span data-kr="평일 09:00 — 18:00" data-en="Mon-Fri 09:00 — 18:00">평일 09:00 — 18:00</span>
+        </li>
+      </ul>
+    </div>
   </div>
-  <div class="footer-copy">© 2025 ㈜푸디버스 FOODIVERSE CO., LTD. All rights reserved.</div>
-  <nav class="footer-links">
-    <a href="#about">회사소개</a>
-    <a href="#brands">브랜드</a>
-    <a href="#contact">문의</a>
-  </nav>
+
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 ㈜푸디버스 FOODIVERSE CO., LTD. All rights reserved.</div>
+    <nav class="footer-bottom-links">
+      <a href="#" data-kr="개인정보처리방침" data-en="Privacy Policy">개인정보처리방침</a>
+      <a href="#" data-kr="이용약관" data-en="Terms">이용약관</a>
+    </nav>
+  </div>
 </footer>
 
 <script>
   // Scroll reveal
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-      }
+      if (e.isIntersecting) e.target.classList.add('visible');
     });
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-  // Form submit
-  function handleSubmit(e) {
-    e.preventDefault();
-    const btn = e.target.querySelector('.form-submit');
-    btn.textContent = '전송되었습니다 ✓';
-    btn.style.background = '#4A8A1F';
-    setTimeout(() => {
-      btn.textContent = '문의하기 →';
-      btn.style.background = '';
-      e.target.reset();
-    }, 3000);
-  }
+  // Nav shrink on scroll
+  const nav = document.getElementById('nav');
+  const onScroll = () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 
   // Nav active state
   const sections = document.querySelectorAll('section[id]');
   window.addEventListener('scroll', () => {
     let current = '';
     sections.forEach(s => {
-      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
     });
     document.querySelectorAll('.nav-links a').forEach(a => {
-      a.style.color = a.getAttribute('href') === '#' + current
-        ? 'var(--green)' : '';
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--green)' : '';
     });
+  }, { passive: true });
+
+  // KR/EN language toggle
+  function applyLang(lang) {
+    document.documentElement.lang = lang === 'en' ? 'en' : 'ko';
+    // Text
+    document.querySelectorAll('[data-kr]').forEach(el => {
+      const v = el.dataset[lang];
+      if (v !== undefined && el.tagName !== 'INPUT' && el.tagName !== 'TEXTAREA') {
+        el.textContent = v;
+      }
+    });
+    // HTML (for nodes with <br>, <em>, <strong>)
+    document.querySelectorAll('[data-kr-html]').forEach(el => {
+      const v = el.dataset[lang + 'Html'];
+      if (v !== undefined) el.innerHTML = v;
+    });
+    // Option text
+    document.querySelectorAll('option[data-kr]').forEach(el => {
+      const v = el.dataset[lang];
+      if (v !== undefined) el.textContent = v;
+    });
+    // Placeholders
+    document.querySelectorAll('[data-kr-ph]').forEach(el => {
+      const v = el.dataset[lang + 'Ph'];
+      if (v !== undefined) el.placeholder = v;
+    });
+    // Toggle button state
+    document.querySelectorAll('.nav-lang button').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+    try { localStorage.setItem('foodiverse_lang', lang); } catch (e) {}
+  }
+  document.querySelectorAll('.nav-lang button').forEach(btn => {
+    btn.addEventListener('click', () => applyLang(btn.dataset.lang));
   });
+  // Restore preferred language
+  (() => {
+    let saved = 'kr';
+    try { saved = localStorage.getItem('foodiverse_lang') || 'kr'; } catch (e) {}
+    if (saved === 'en') applyLang('en');
+  })();
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    const lang = document.documentElement.lang === 'en' ? 'en' : 'kr';
+    btn.textContent = lang === 'en' ? 'Sent ✓' : '전송되었습니다 ✓';
+    btn.style.background = '#4A8A1F';
+    setTimeout(() => {
+      btn.textContent = lang === 'en' ? 'Send Inquiry →' : '문의하기 →';
+      btn.style.background = '';
+      e.target.reset();
+    }, 3000);
+  }
 </script>
 </body>
 </html>
