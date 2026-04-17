@@ -64,27 +64,33 @@
     }
     .nav-links a:hover { color: var(--green); }
     .nav-lang {
-      display: inline-flex; align-items: center; gap: 0.4rem;
+      display: inline-flex; align-items: center;
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
-      color: var(--brown-mid);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 0.25rem 0.1rem;
-      background: rgba(255,255,255,0.4);
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
+      border: 1.5px solid var(--brown-mid);
+      border-radius: 6px;
+      overflow: hidden;
+      flex-shrink: 0;
     }
     .nav-lang button {
-      font: inherit; color: inherit; background: none;
+      font: inherit; background: none;
       border: none; cursor: pointer;
-      padding: 0.25rem 0.6rem;
-      border-radius: 16px;
-      transition: all 0.2s;
+      padding: 0.38rem 0.75rem;
+      color: var(--brown-mid);
+      transition: all 0.18s;
+      line-height: 1;
+    }
+    .nav-lang button + button {
+      border-left: 1.5px solid var(--brown-mid);
     }
     .nav-lang button.active {
       background: var(--brown);
       color: var(--white);
     }
-    .nav-lang button:not(.active):hover { color: var(--green); }
+    .nav-lang button:not(.active):hover {
+      background: var(--cream-dark);
+      color: var(--green);
+    }
     .nav-cta {
       font-family: 'Montserrat', sans-serif;
       font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em;
@@ -948,6 +954,7 @@
       .cap-grid { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
       nav .nav-links { display: none; }
+      .nav-cta { display: none; }
     }
     @media (max-width: 700px) {
       .services-grid { grid-template-columns: 1fr; }
@@ -1644,8 +1651,15 @@
     entries.forEach(e => {
       if (e.isIntersecting) e.target.classList.add('visible');
     });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => {
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight && r.bottom > 0) {
+      el.classList.add('visible');
+    } else {
+      observer.observe(el);
+    }
+  });
 
   // Nav shrink on scroll
   const nav = document.getElementById('nav');
