@@ -576,6 +576,7 @@
     .cap-compliance {
       display: flex; gap: 1rem; flex-wrap: wrap;
       margin-top: 1.5rem;
+      justify-content: center;
     }
     .badge {
       font-family: 'Montserrat', sans-serif;
@@ -1534,23 +1535,26 @@
     </div>
     <div class="contact-form-area reveal reveal-delay-2">
       <div class="form-title" data-kr="문의 양식" data-en="Inquiry Form">문의 양식</div>
-      <form onsubmit="handleSubmit(event)">
+      <form id="contactForm" onsubmit="handleSubmit(event)">
+        <input type="hidden" name="access_key" value="REPLACE_WITH_WEB3FORMS_KEY">
+        <input type="hidden" name="subject" value="[푸디버스] 새 파트너십 문의">
+        <input type="hidden" name="from_name" value="FOODIVERSE 웹사이트">
         <div class="form-row">
           <div class="form-group">
-            <input type="text" placeholder="성함 *" data-kr-ph="성함 *" data-en-ph="Name *" required>
+            <input type="text" name="name" placeholder="성함 *" data-kr-ph="성함 *" data-en-ph="Name *" required>
           </div>
           <div class="form-group">
-            <input type="text" placeholder="회사명" data-kr-ph="회사명" data-en-ph="Company">
+            <input type="text" name="company" placeholder="회사명" data-kr-ph="회사명" data-en-ph="Company">
           </div>
         </div>
         <div class="form-group">
-          <input type="email" placeholder="이메일 *" data-kr-ph="이메일 *" data-en-ph="Email *" required>
+          <input type="email" name="email" placeholder="이메일 *" data-kr-ph="이메일 *" data-en-ph="Email *" required>
         </div>
         <div class="form-group">
-          <input type="tel" placeholder="연락처" data-kr-ph="연락처" data-en-ph="Phone">
+          <input type="tel" name="phone" placeholder="연락처" data-kr-ph="연락처" data-en-ph="Phone">
         </div>
         <div class="form-group">
-          <select>
+          <select name="inquiry_type">
             <option value="" data-kr="문의 유형 선택" data-en="Inquiry type">문의 유형 선택</option>
             <option data-kr="글로벌 소싱 협력" data-en="Global sourcing partnership">글로벌 소싱 협력</option>
             <option data-kr="수입 대행 문의" data-en="Import representation">수입 대행 문의</option>
@@ -1559,7 +1563,7 @@
           </select>
         </div>
         <div class="form-group">
-          <textarea placeholder="문의 내용을 입력해 주세요." data-kr-ph="문의 내용을 입력해 주세요." data-en-ph="Please enter your inquiry."></textarea>
+          <textarea name="message" placeholder="문의 내용을 입력해 주세요." data-kr-ph="문의 내용을 입력해 주세요." data-en-ph="Please enter your inquiry."></textarea>
         </div>
         <button type="submit" class="form-submit" data-kr="문의하기 →" data-en="Send Inquiry →">문의하기 →</button>
       </form>
@@ -1780,18 +1784,44 @@
     mapObs.observe(wrap);
   })();
 
-  // Form submit
-  function handleSubmit(e) {
+  // Form submit — Web3Forms
+  async function handleSubmit(e) {
     e.preventDefault();
-    const btn = e.target.querySelector('.form-submit');
+    const form = e.target;
+    const btn = form.querySelector('.form-submit');
     const lang = document.documentElement.lang === 'en' ? 'en' : 'kr';
-    btn.textContent = lang === 'en' ? 'Sent ✓' : '전송되었습니다 ✓';
-    btn.style.background = '#4A8A1F';
-    setTimeout(() => {
-      btn.textContent = lang === 'en' ? 'Send Inquiry →' : '문의하기 →';
-      btn.style.background = '';
-      e.target.reset();
-    }, 3000);
+
+    btn.disabled = true;
+    btn.textContent = lang === 'en' ? 'Sending…' : '전송 중…';
+
+    const data = new FormData(form);
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: data
+      });
+      const json = await res.json();
+      if (json.success) {
+        btn.textContent = lang === 'en' ? 'Sent ✓' : '전송되었습니다 ✓';
+        btn.style.background = '#4A8A1F';
+        form.reset();
+        setTimeout(() => {
+          btn.textContent = lang === 'en' ? 'Send Inquiry →' : '문의하기 →';
+          btn.style.background = '';
+          btn.disabled = false;
+        }, 3500);
+      } else {
+        throw new Error('failed');
+      }
+    } catch {
+      btn.textContent = lang === 'en' ? 'Error — try again' : '오류가 발생했습니다. 다시 시도해주세요.';
+      btn.style.background = '#c0392b';
+      setTimeout(() => {
+        btn.textContent = lang === 'en' ? 'Send Inquiry →' : '문의하기 →';
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 3500);
+    }
   }
 </script>
 </body>
