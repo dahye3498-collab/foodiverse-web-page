@@ -66,30 +66,29 @@
     .nav-lang {
       display: inline-flex; align-items: center;
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
-      border: 1.5px solid var(--brown-mid);
-      border-radius: 6px;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
+      background: var(--brown);
+      border-radius: 4px;
       overflow: hidden;
       flex-shrink: 0;
     }
     .nav-lang button {
       font: inherit; background: none;
       border: none; cursor: pointer;
-      padding: 0.38rem 0.75rem;
-      color: var(--brown-mid);
+      padding: 0.42rem 0.8rem;
+      color: rgba(255,255,255,0.5);
       transition: all 0.18s;
       line-height: 1;
     }
     .nav-lang button + button {
-      border-left: 1.5px solid var(--brown-mid);
+      border-left: 1px solid rgba(255,255,255,0.15);
     }
     .nav-lang button.active {
-      background: var(--brown);
+      background: var(--green);
       color: var(--white);
     }
     .nav-lang button:not(.active):hover {
-      background: var(--cream-dark);
-      color: var(--green);
+      color: var(--white);
     }
     .nav-cta {
       font-family: 'Montserrat', sans-serif;
@@ -962,6 +961,53 @@
       .btn-primary, .btn-outline { padding: 0.95rem 1.8rem; font-size: 0.72rem; }
       .contact-map { height: 280px; }
     }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(44,24,16,0.7);
+      backdrop-filter: blur(4px);
+      align-items: center; justify-content: center;
+      padding: 2rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--white);
+      max-width: 720px; width: 100%;
+      max-height: 80vh;
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--brown);
+    }
+    .modal-close {
+      background: none; border: none; cursor: pointer;
+      color: var(--brown-light); font-size: 1.4rem; line-height: 1;
+      padding: 0.2rem 0.4rem;
+      transition: color 0.2s;
+    }
+    .modal-close:hover { color: var(--brown); }
+    .modal-body {
+      padding: 2rem; overflow-y: auto;
+      font-size: 0.88rem; line-height: 1.8; color: var(--brown-mid);
+    }
+    .modal-body h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.82rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--brown);
+      margin: 1.6rem 0 0.6rem;
+    }
+    .modal-body h3:first-child { margin-top: 0; }
+    .modal-body p { margin-bottom: 0.8rem; }
   </style>
 </head>
 <body>
@@ -1603,11 +1649,82 @@
   <div class="footer-bottom">
     <div class="footer-copy">© 2026 ㈜푸디버스 FOODIVERSE CO., LTD. All rights reserved.</div>
     <nav class="footer-bottom-links">
-      <a href="#" data-kr="개인정보처리방침" data-en="Privacy Policy">개인정보처리방침</a>
-      <a href="#" data-kr="이용약관" data-en="Terms">이용약관</a>
+      <a href="#" onclick="openModal('privacy');return false;" data-kr="개인정보처리방침" data-en="Privacy Policy">개인정보처리방침</a>
+      <a href="#" onclick="openModal('terms');return false;" data-kr="이용약관" data-en="Terms">이용약관</a>
     </nav>
   </div>
 </footer>
+
+<!-- 개인정보처리방침 모달 -->
+<div class="modal-overlay" id="modal-privacy" onclick="if(event.target===this)closeModal('privacy')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title" data-kr="개인정보처리방침" data-en="Privacy Policy">개인정보처리방침</span>
+      <button class="modal-close" onclick="closeModal('privacy')">×</button>
+    </div>
+    <div class="modal-body">
+      <h3>1. 개인정보의 수집 및 이용 목적</h3>
+      <p>㈜푸디버스(이하 "회사")는 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며, 이용 목적이 변경되는 경우에는 별도의 동의를 받는 등 필요한 조치를 이행할 예정입니다.</p>
+      <p>① 파트너십 및 비즈니스 문의 처리<br>② 서비스 안내 및 상담<br>③ 계약 이행 및 관계 유지</p>
+
+      <h3>2. 수집하는 개인정보 항목</h3>
+      <p>회사는 문의 접수 및 상담을 위해 아래와 같은 개인정보를 수집합니다.</p>
+      <p>① 필수항목: 성함, 이메일 주소<br>② 선택항목: 회사명, 연락처, 문의 내용</p>
+
+      <h3>3. 개인정보의 보유 및 이용 기간</h3>
+      <p>회사는 법령에 따른 개인정보 보유·이용 기간 또는 정보주체로부터 개인정보를 수집 시에 동의받은 개인정보 보유·이용 기간 내에서 개인정보를 처리·보유합니다.</p>
+      <p>문의 접수 및 처리 완료 후 3년간 보존 후 파기합니다.</p>
+
+      <h3>4. 개인정보의 제3자 제공</h3>
+      <p>회사는 정보주체의 개인정보를 제3자에게 제공하지 않습니다. 다만, 법령의 규정에 의거하거나 수사 목적으로 법령에 정해진 절차와 방법에 따라 수사기관의 요구가 있는 경우는 예외로 합니다.</p>
+
+      <h3>5. 정보주체의 권리·의무 및 행사 방법</h3>
+      <p>정보주체는 회사에 대해 언제든지 개인정보 열람·정정·삭제·처리 정지 요구 등의 권리를 행사할 수 있습니다. 권리 행사는 이메일(import@foodiverse.co.kr)로 연락하시기 바랍니다.</p>
+
+      <h3>6. 개인정보 보호책임자</h3>
+      <p>성명: 푸디버스 개인정보 담당자<br>이메일: import@foodiverse.co.kr<br>전화: +82 2-2299-8912</p>
+
+      <h3>7. 시행일</h3>
+      <p>이 개인정보처리방침은 2024년 1월 1일부터 적용됩니다.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 이용약관 모달 -->
+<div class="modal-overlay" id="modal-terms" onclick="if(event.target===this)closeModal('terms')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title" data-kr="이용약관" data-en="Terms of Service">이용약관</span>
+      <button class="modal-close" onclick="closeModal('terms')">×</button>
+    </div>
+    <div class="modal-body">
+      <h3>제1조 (목적)</h3>
+      <p>이 약관은 ㈜푸디버스(이하 "회사")가 운영하는 웹사이트(www.foodiverse.co.kr, 이하 "사이트")에서 제공하는 서비스의 이용 조건 및 절차에 관한 사항을 규정함을 목적으로 합니다.</p>
+
+      <h3>제2조 (약관의 효력 및 변경)</h3>
+      <p>① 이 약관은 사이트에 게시함으로써 효력이 발생합니다.<br>② 회사는 필요한 경우 약관을 변경할 수 있으며, 변경된 약관은 사이트에 공지함으로써 효력이 발생합니다.</p>
+
+      <h3>제3조 (서비스의 제공)</h3>
+      <p>회사는 다음과 같은 서비스를 제공합니다.</p>
+      <p>① 글로벌 프리미엄 축산물 수입·유통 관련 정보 제공<br>② 파트너십 및 비즈니스 문의 접수<br>③ 시장 인사이트 및 리포트 제공</p>
+
+      <h3>제4조 (서비스 이용)</h3>
+      <p>① 본 사이트는 B2B 비즈니스 정보 제공을 목적으로 합니다.<br>② 사용자는 사이트 이용 시 관련 법령 및 본 약관을 준수하여야 합니다.<br>③ 사이트의 콘텐츠를 무단으로 복제·배포·변경하는 행위를 금지합니다.</p>
+
+      <h3>제5조 (지적재산권)</h3>
+      <p>사이트에 게재된 모든 콘텐츠(텍스트, 이미지, 로고 등)의 지적재산권은 회사에 귀속되며, 회사의 사전 동의 없이 사용할 수 없습니다.</p>
+
+      <h3>제6조 (면책조항)</h3>
+      <p>① 회사는 천재지변, 불가항력적 사유로 인한 서비스 중단에 대해 책임을 지지 않습니다.<br>② 사이트의 정보는 참고용으로 제공되며, 실제 거래에 적용되는 조건은 별도 계약에 따릅니다.</p>
+
+      <h3>제7조 (준거법 및 관할)</h3>
+      <p>이 약관은 대한민국 법률에 따라 해석되며, 분쟁 발생 시 서울중앙지방법원을 관할 법원으로 합니다.</p>
+
+      <h3>부칙</h3>
+      <p>이 약관은 2024년 1월 1일부터 시행합니다.</p>
+    </div>
+  </div>
+</div>
 
 <script>
   // Scroll reveal
@@ -1783,6 +1900,21 @@
       }, 3500);
     }
   }
+
+  // Modal
+  function openModal(id) {
+    document.getElementById('modal-' + id).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(id) {
+    document.getElementById('modal-' + id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      ['privacy','terms'].forEach(closeModal);
+    }
+  });
 </script>
 </body>
 </html>
