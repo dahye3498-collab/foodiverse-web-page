@@ -889,15 +889,20 @@
       color: rgba(255,255,255,0.35);
       letter-spacing: 0.02em;
     }
-    .footer-bottom-links { display: flex; gap: 1.2rem; }
-    .footer-bottom-links a {
+    .footer-legal {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0.8rem;
+      padding: 0.9rem 5vw;
+      border-top: 1px solid rgba(255,255,255,0.06);
       font-family: 'Montserrat', sans-serif;
-      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em;
-      text-transform: uppercase; text-decoration: none;
-      color: rgba(255,255,255,0.4);
+      font-size: 0.65rem; letter-spacing: 0.08em;
+    }
+    .footer-legal a {
+      text-decoration: none; color: rgba(255,255,255,0.35);
       transition: color 0.2s;
     }
-    .footer-bottom-links a:hover { color: var(--green); }
+    .footer-legal a:hover { color: var(--green); }
+    .footer-legal span { color: rgba(255,255,255,0.2); }
 
     /* ── ICONS ── */
     .icon {
@@ -956,7 +961,6 @@
       .form-row { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .footer-bottom { flex-direction: column; text-align: center; }
-      .footer-bottom-links { justify-content: center; }
       .hero-scroll { display: none; }
       .btn-primary, .btn-outline { padding: 0.95rem 1.8rem; font-size: 0.72rem; }
       .contact-map { height: 280px; }
@@ -1648,10 +1652,11 @@
 
   <div class="footer-bottom">
     <div class="footer-copy">© 2026 ㈜푸디버스 FOODIVERSE CO., LTD. All rights reserved.</div>
-    <nav class="footer-bottom-links">
-      <a href="#" onclick="openModal('privacy');return false;" data-kr="개인정보처리방침" data-en="Privacy Policy">개인정보처리방침</a>
-      <a href="#" onclick="openModal('terms');return false;" data-kr="이용약관" data-en="Terms">이용약관</a>
-    </nav>
+  </div>
+  <div class="footer-legal">
+    <a href="#" onclick="openModal('privacy');return false;" data-kr="개인정보처리방침" data-en="Privacy Policy">개인정보처리방침</a>
+    <span>|</span>
+    <a href="#" onclick="openModal('terms');return false;" data-kr="이용약관" data-en="Terms">이용약관</a>
   </div>
 </footer>
 
