@@ -722,6 +722,55 @@
     }
     .form-submit:hover { background: var(--green-dark); }
 
+    /* ── PARTNER TICKER ── */
+    .partner-ticker {
+      background: var(--cream-dark);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 1.1rem 0;
+      display: flex; align-items: center; gap: 0;
+      overflow: hidden;
+    }
+    .ticker-label {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--brown-light);
+      white-space: nowrap;
+      padding: 0 2rem 0 5vw;
+      border-right: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .ticker-track-wrap {
+      overflow: hidden; flex: 1;
+      mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    }
+    .ticker-track {
+      display: flex; align-items: center; gap: 0;
+      width: max-content;
+      animation: tickerScroll 28s linear infinite;
+    }
+    .ticker-track:hover { animation-play-state: paused; }
+    @keyframes tickerScroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .ticker-item {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--brown);
+      padding: 0 2.5rem;
+      display: flex; align-items: center; gap: 0.5rem;
+      white-space: nowrap;
+      border-right: 1px solid var(--border);
+    }
+    .ticker-item em {
+      font-style: normal; font-size: 0.58rem; font-weight: 600;
+      color: var(--green); letter-spacing: 0.1em;
+      background: rgba(109,179,58,0.1);
+      padding: 0.15rem 0.4rem; border-radius: 2px;
+    }
+
     /* ── SOURCING MAP ── */
     #sourcing-map {
       background: #180B06;
@@ -1159,19 +1208,19 @@
 <!-- STATS STRIP -->
 <section class="stats-strip">
   <div class="kpi-item reveal">
-    <div class="kpi-number">100<span>B+</span></div>
+    <div class="kpi-number" data-target="100" data-suffix="B+">100<span>B+</span></div>
     <div class="kpi-label" data-kr="KRW 연매출" data-en="Annual Revenue (KRW)">KRW 연매출</div>
   </div>
   <div class="kpi-item reveal reveal-delay-1">
-    <div class="kpi-number">1,000<span>+</span></div>
+    <div class="kpi-number" data-target="1000" data-suffix="+" data-comma="true">1,000<span>+</span></div>
     <div class="kpi-label" data-kr="컨테이너" data-en="Containers">컨테이너</div>
   </div>
   <div class="kpi-item reveal reveal-delay-2">
-    <div class="kpi-number"><span>$</span>159M</div>
+    <div class="kpi-number" data-target="159" data-prefix="$" data-suffix="M"><span>$</span>159M</div>
     <div class="kpi-label" data-kr="누적 수입액" data-en="Cumulative Imports">누적 수입액</div>
   </div>
   <div class="kpi-item reveal reveal-delay-3">
-    <div class="kpi-number">9<span>+</span></div>
+    <div class="kpi-number" data-target="9" data-suffix="+">9<span>+</span></div>
     <div class="kpi-label">Direct Import Partners</div>
   </div>
 </section>
@@ -1444,6 +1493,34 @@
     </div>
   </div>
 </section>
+
+<!-- PARTNER TICKER -->
+<div class="partner-ticker">
+  <div class="ticker-label" data-kr="직수입 파트너" data-en="Direct Import Partners">직수입 파트너</div>
+  <div class="ticker-track-wrap">
+    <div class="ticker-track">
+      <span class="ticker-item"><em>USA</em> EXCEL</span>
+      <span class="ticker-item"><em>AUS</em> AMG</span>
+      <span class="ticker-item"><em>NZL</em> ALLIANCE</span>
+      <span class="ticker-item"><em>AUS</em> TEYS</span>
+      <span class="ticker-item"><em>AUS</em> GBP</span>
+      <span class="ticker-item"><em>GLB</em> JBS</span>
+      <span class="ticker-item"><em>USA</em> SWIFT</span>
+      <span class="ticker-item"><em>CAN</em> OLYMEL</span>
+      <span class="ticker-item"><em>ESP</em> BATALLE</span>
+      <!-- 반복 (seamless loop) -->
+      <span class="ticker-item"><em>USA</em> EXCEL</span>
+      <span class="ticker-item"><em>AUS</em> AMG</span>
+      <span class="ticker-item"><em>NZL</em> ALLIANCE</span>
+      <span class="ticker-item"><em>AUS</em> TEYS</span>
+      <span class="ticker-item"><em>AUS</em> GBP</span>
+      <span class="ticker-item"><em>GLB</em> JBS</span>
+      <span class="ticker-item"><em>USA</em> SWIFT</span>
+      <span class="ticker-item"><em>CAN</em> OLYMEL</span>
+      <span class="ticker-item"><em>ESP</em> BATALLE</span>
+    </div>
+  </div>
+</div>
 
 <!-- CAPABILITIES -->
 <section id="capabilities">
@@ -1978,6 +2055,33 @@
       }, 3500);
     }
   }
+
+  // Counter animation
+  const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const target = +el.dataset.target;
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const comma = el.dataset.comma === 'true';
+      const duration = 1800;
+      const start = performance.now();
+      function update(now) {
+        const p = Math.min((now - start) / duration, 1);
+        const ease = 1 - Math.pow(1 - p, 3);
+        const val = Math.round(ease * target);
+        const display = comma ? val.toLocaleString() : val;
+        el.innerHTML = prefix
+          ? `<span>${prefix}</span>${display}${suffix}`
+          : `${display}<span>${suffix}</span>`;
+        if (p < 1) requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+      counterObs.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.kpi-number[data-target]').forEach(el => counterObs.observe(el));
 
   // Hamburger menu
   const burger = document.getElementById('navBurger');
