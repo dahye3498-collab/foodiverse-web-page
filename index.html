@@ -1958,6 +1958,34 @@
     if (saved === 'en') applyLang('en');
   })();
 
+  // Load insights from Notion API
+  (async function() {
+    try {
+      const res = await fetch('/api/reports');
+      if (!res.ok) return;
+      const reports = await res.json();
+      if (!reports.length) return;
+
+      const grid = document.querySelector('.insights-grid');
+      const delays = ['', 'reveal-delay-1', 'reveal-delay-2'];
+
+      grid.innerHTML = reports.map((r, i) => `
+        <article class="insight-card reveal ${delays[i] || ''}">
+          <div class="insight-meta">
+            <span class="insight-date">${r.date}</span>
+            <span class="insight-category">${r.category}</span>
+          </div>
+          <h3 class="insight-title">${r.title}</h3>
+          <p class="insight-excerpt">${r.excerpt}</p>
+        </article>
+      `).join('');
+
+      grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    } catch (e) {
+      // fallback: keep hardcoded cards
+    }
+  })();
+
   // Sourcing map
   (function() {
     const wrap = document.getElementById('mapWrap');
