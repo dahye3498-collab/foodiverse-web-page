@@ -52,7 +52,7 @@ export default async function handler(req, res) {
       return { title, date, category, excerpt };
     });
 
-    res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate');
+    res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate');
     res.status(200).json(reports);
   } catch (err) {
     console.error(err);
