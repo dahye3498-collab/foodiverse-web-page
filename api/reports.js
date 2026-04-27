@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
           filter: {
-            property: '\uCCB4\uD06C\uBC15\uC2A4',
+            property: '\uAC8C\uC2DC',
             checkbox: { equals: true },
           },
           sorts: [{ property: '\uB0A0\uC9DC', direction: 'descending' }],
