@@ -1155,6 +1155,56 @@
     }
     .modal-body h3:first-child { margin-top: 0; }
     .modal-body p { margin-bottom: 0.8rem; }
+
+    /* ── FLOATING KAKAO BUTTON ── */
+    .kakao-float {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      z-index: 90;
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: #FEE500;
+      color: #3C1E1E;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+      cursor: pointer;
+      border: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .kakao-float:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+    }
+    .kakao-float svg { width: 28px; height: 28px; }
+    .kakao-float-tooltip {
+      position: absolute;
+      right: 68px; top: 50%;
+      transform: translateY(-50%);
+      background: var(--brown);
+      color: var(--white);
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 0.78rem; font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .kakao-float-tooltip::after {
+      content: '';
+      position: absolute; right: -6px; top: 50%;
+      transform: translateY(-50%);
+      border: 6px solid transparent;
+      border-left-color: var(--brown);
+      border-right: none;
+    }
+    .kakao-float:hover .kakao-float-tooltip { opacity: 1; }
+    @media (max-width: 600px) {
+      .kakao-float { width: 48px; height: 48px; bottom: 1.2rem; right: 1.2rem; }
+      .kakao-float svg { width: 24px; height: 24px; }
+      .kakao-float-tooltip { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -1845,6 +1895,12 @@
   </div>
 </footer>
 
+<!-- FLOATING KAKAO BUTTON -->
+<button class="kakao-float" id="kakaoFloat" aria-label="카카오톡 문의">
+  <span class="kakao-float-tooltip" data-kr="카카오톡 문의" data-en="Chat on KakaoTalk">카카오톡 문의</span>
+  <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 3C6.48 3 2 6.58 2 11c0 2.77 1.78 5.2 4.48 6.64L5.4 21.58c-.1.36.3.65.6.44l4.65-3.08c.44.04.89.06 1.35.06 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>
+</button>
+
 <!-- 개인정보처리방침 모달 -->
 <div class="modal-overlay" id="modal-privacy" onclick="if(event.target===this)closeModal('privacy')">
   <div class="modal-box">
@@ -2095,6 +2151,19 @@
     e.preventDefault();
     document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
     setTimeout(() => document.getElementById('contactEmail')?.focus(), 600);
+  });
+
+  // Floating Kakao button — deep link with web fallback
+  document.getElementById('kakaoFloat')?.addEventListener('click', function() {
+    const deepLink = 'kakaoplus://plusfriend/chat/_mxogqG';
+    const webLink = 'https://pf.kakao.com/_mxogqG/chat';
+    const start = Date.now();
+    window.location.href = deepLink;
+    setTimeout(function() {
+      if (Date.now() - start < 1500) {
+        window.open(webLink, '_blank');
+      }
+    }, 800);
   });
 
   // Form submit — Web3Forms
