@@ -31,6 +31,8 @@
       background: var(--cream);
       color: var(--brown);
       overflow-x: hidden;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
     }
 
     /* ── NAV ── */
@@ -1066,12 +1068,45 @@
       .btn-primary, .btn-outline { padding: 0.9rem 1.6rem; font-size: 0.72rem; }
       .section-title { font-size: clamp(1.5rem, 5.5vw, 2rem); }
       .kpi-number { font-size: 2rem; }
-      .map-wrap { overflow-x: auto; }
+      .map-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .map-svg { min-width: 700px; }
+      .brand-name { font-size: 1.1rem; }
+      .brand-desc { font-size: 0.78rem; }
+      .brand-card { padding: 1.6rem 1.4rem; }
+      .brands-more-text { font-size: 0.82rem; }
+      .brands-more-text br { display: none; }
+      .cap-card { padding: 2rem 1.5rem; }
+      .cap-title { font-size: 0.92rem; }
+      .cap-list li { font-size: 0.78rem; }
+      .flow-step { padding: 1.2rem 0.6rem; }
+      .flow-name { font-size: 0.62rem; letter-spacing: 0.06em; }
+      .flow-icon { width: 36px; height: 36px; }
+      .flow-step::after { font-size: 0.8rem; }
+      .badge { font-size: 0.58rem; padding: 0.3rem 0.6rem; }
+      .contact-item-value { font-size: 0.82rem; word-break: break-all; }
+      .footer-tagline { font-size: 0.72rem; }
+      .insight-title { font-size: 0.92rem; }
+      .insight-excerpt { font-size: 0.78rem; }
+      .service-card { padding: 1.8rem 1.4rem; }
+      .service-desc { font-size: 0.8rem; }
+      .ticker-label { font-size: 0.55rem; padding: 0 1rem 0 4vw; }
+      .ticker-item { font-size: 0.68rem; padding: 0 1.8rem; }
     }
     @media (max-width: 420px) {
       .brands-grid { grid-template-columns: 1fr; }
       .stats-strip { grid-template-columns: 1fr 1fr; }
       .hero-logo img { width: min(300px, 85vw); }
+      .hero-headline { font-size: clamp(1.4rem, 6vw, 1.8rem); }
+      .hero-sub { font-size: 0.82rem; }
+      .kpi-number { font-size: 1.7rem; }
+      .kpi-label { font-size: 0.6rem; }
+      .section-title { font-size: clamp(1.3rem, 5vw, 1.6rem); }
+      .section-desc { font-size: 0.88rem; }
+      .brands-more { padding: 1.4rem 1.4rem 1.4rem 1.6rem; }
+      .brands-more-headline { font-size: 1rem; }
+      .cap-flow { flex-wrap: wrap; gap: 0.3rem; }
+      .flow-step::after { display: none; }
+      .footer-legal { flex-direction: column; gap: 0.4rem; }
     }
 
     /* ── MODAL ── */
@@ -2039,6 +2074,13 @@
         });
         g.addEventListener('mouseleave', () => { tip.style.display = 'none'; });
       });
+      // Center scroll on Korea hub (x=950 out of 1600 = 59.4%)
+      const svg = wrap.querySelector('.map-svg');
+      if (svg && wrap.scrollWidth > wrap.clientWidth) {
+        const koreaRatio = 950 / 1600;
+        const koreaX = svg.clientWidth * koreaRatio;
+        wrap.scrollLeft = koreaX - wrap.clientWidth / 2;
+      }
       mapObs.disconnect();
     }, { threshold: 0.2 });
     mapObs.observe(wrap);
