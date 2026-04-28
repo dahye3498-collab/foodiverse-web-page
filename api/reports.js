@@ -53,7 +53,7 @@ export default async function handler(req, res) {
       const titleEn =
         props['Title_EN']?.rich_text?.[0]?.plain_text || title;
       const excerptEn =
-        props['Summary_EN']?.rich_text?.[0]?.plain_text || excerpt;
+        props['Summary_EN ']?.rich_text?.[0]?.plain_text || props['Summary_EN']?.rich_text?.[0]?.plain_text || excerpt;
 
       return { title, titleEn, date, category, excerpt, excerptEn };
     });
