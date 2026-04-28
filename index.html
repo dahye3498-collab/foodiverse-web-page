@@ -1743,7 +1743,7 @@
           </div>
         </div>
         <div class="form-group">
-          <input type="email" name="email" placeholder="이메일 *" data-kr-ph="이메일 *" data-en-ph="Email *" required>
+          <input type="email" name="email" id="contactEmail" placeholder="이메일 *" data-kr-ph="이메일 *" data-en-ph="Email *" required>
         </div>
         <div class="form-group">
           <input type="tel" name="phone" placeholder="연락처" data-kr-ph="연락처" data-en-ph="Phone">
@@ -1778,7 +1778,7 @@
         세계의 프리미엄 축산물을 한국의 식탁으로.
       </div>
       <div class="footer-social">
-        <a href="mailto:import@foodiverse.co.kr" aria-label="Email"><svg class="icon"><use href="#i-mail"/></svg></a>
+        <a href="#contact" aria-label="Email"><svg class="icon"><use href="#i-mail"/></svg></a>
         <a href="https://pf.kakao.com/_mxogqG/chat" target="_blank" aria-label="Kakao"><svg class="icon"><use href="#i-kakao"/></svg></a>
         <a href="https://www.linkedin.com" target="_blank" aria-label="LinkedIn"><svg class="icon"><use href="#i-linkedin"/></svg></a>
       </div>
@@ -2089,6 +2089,13 @@
     }, { threshold: 0.2 });
     mapObs.observe(wrap);
   })();
+
+  // Footer email icon → focus contact email field
+  document.querySelector('.footer-social a[href="#contact"]')?.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => document.getElementById('contactEmail')?.focus(), 600);
+  });
 
   // Form submit — Web3Forms
   async function handleSubmit(e) {
