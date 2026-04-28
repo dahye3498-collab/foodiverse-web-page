@@ -49,7 +49,13 @@ export default async function handler(req, res) {
       const excerpt =
         props['Summary']?.rich_text?.[0]?.plain_text || '';
 
-      return { title, date, category, excerpt };
+      // English fields
+      const titleEn =
+        props['Title_EN']?.rich_text?.[0]?.plain_text || title;
+      const excerptEn =
+        props['Summary_EN']?.rich_text?.[0]?.plain_text || excerpt;
+
+      return { title, titleEn, date, category, excerpt, excerptEn };
     });
 
     res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate');

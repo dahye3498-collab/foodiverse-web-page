@@ -2010,12 +2010,16 @@
             <span class="insight-date">${r.date}</span>
             <span class="insight-category">${r.category}</span>
           </div>
-          <h3 class="insight-title">${r.title}</h3>
-          <p class="insight-excerpt">${r.excerpt}</p>
+          <h3 class="insight-title" data-kr="${r.title}" data-en="${r.titleEn}">${r.title}</h3>
+          <p class="insight-excerpt" data-kr="${r.excerpt}" data-en="${r.excerptEn}">${r.excerpt}</p>
         </article>
       `).join('');
 
       grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+      // Apply current language to new cards
+      let curLang = 'kr';
+      try { curLang = localStorage.getItem('foodiverse_lang') || 'kr'; } catch (e) {}
+      if (curLang === 'en') applyLang('en');
     } catch (e) {
       // fallback: keep hardcoded cards
     }
