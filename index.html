@@ -835,29 +835,6 @@
       letter-spacing: 0.06em;
       pointer-events: none;
     }
-    .map-tip {
-      position: absolute;
-      background: #180B06;
-      border: 1px solid rgba(109,179,58,0.5);
-      color: rgba(255,255,255,0.85);
-      padding: 0.6rem 0.9rem;
-      border-radius: 2px;
-      font-size: 0.78rem;
-      line-height: 1.65;
-      pointer-events: none;
-      display: none;
-      white-space: nowrap;
-      z-index: 20;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-    }
-    .map-tip strong {
-      display: block;
-      color: var(--green);
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.64rem; font-weight: 800;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      margin-bottom: 0.2rem;
-    }
     @media (max-width: 700px) {
       #sourcing-map { padding: 4rem 5vw 5rem; }
     }
@@ -1047,6 +1024,7 @@
       #sourcing-map { padding: 4rem 4vw 5rem; }
       nav .nav-links { display: none; }
       .nav-cta { display: none; }
+      .hero-logo { display: none; }
       .nav-burger { display: flex; }
     }
     @media (max-width: 700px) {
@@ -1400,7 +1378,7 @@
       <text class="map-label map-label-hub" x="950" y="358">KOREA</text>
 
       <!-- Europe -->
-      <g class="map-node-g" data-tip="&lt;strong&gt;Europe&lt;/strong&gt;두록 돼지고기 외&lt;br&gt;Batalle · Vall Companys">
+      <g class="map-node-g">
         <circle cx="360" cy="250" r="26" fill="url(#nodeGlow)" stroke="rgba(109,179,58,0.25)" stroke-width="1"/>
         <circle cx="360" cy="250" r="11" class="map-node-src"/>
         <text class="map-label" x="360" y="226">EUROPE</text>
@@ -1408,7 +1386,7 @@
       </g>
 
       <!-- Canada -->
-      <g class="map-node-g" data-tip="&lt;strong&gt;Canada&lt;/strong&gt;프리미엄 돼지고기&lt;br&gt;Olymel · Maple Leaf">
+      <g class="map-node-g">
         <circle cx="1320" cy="180" r="26" fill="url(#nodeGlow)" stroke="rgba(109,179,58,0.25)" stroke-width="1"/>
         <circle cx="1320" cy="180" r="11" class="map-node-src"/>
         <text class="map-label" x="1320" y="156">CANADA</text>
@@ -1416,7 +1394,7 @@
       </g>
 
       <!-- USA -->
-      <g class="map-node-g" data-tip="&lt;strong&gt;USA&lt;/strong&gt;소고기 · Choice / Prime&lt;br&gt;Excel · Swift · Tyson">
+      <g class="map-node-g">
         <circle cx="1280" cy="280" r="26" fill="url(#nodeGlow)" stroke="rgba(109,179,58,0.25)" stroke-width="1"/>
         <circle cx="1280" cy="280" r="11" class="map-node-src"/>
         <text class="map-label" x="1280" y="320">USA</text>
@@ -1424,7 +1402,7 @@
       </g>
 
       <!-- Australia -->
-      <g class="map-node-g" data-tip="&lt;strong&gt;Australia&lt;/strong&gt;와규 · 목초 소고기&lt;br&gt;AMG · TEYS · GBP">
+      <g class="map-node-g">
         <circle cx="900" cy="700" r="26" fill="url(#nodeGlow)" stroke="rgba(109,179,58,0.25)" stroke-width="1"/>
         <circle cx="900" cy="700" r="11" class="map-node-src"/>
         <text class="map-label" x="900" y="742">AUSTRALIA</text>
@@ -1432,14 +1410,13 @@
       </g>
 
       <!-- New Zealand -->
-      <g class="map-node-g" data-tip="&lt;strong&gt;New Zealand&lt;/strong&gt;소고기 · 양고기&lt;br&gt;Alliance · Silver Fern">
+      <g class="map-node-g">
         <circle cx="1180" cy="790" r="26" fill="url(#nodeGlow)" stroke="rgba(109,179,58,0.25)" stroke-width="1"/>
         <circle cx="1180" cy="790" r="11" class="map-node-src"/>
         <text class="map-label" x="1180" y="832">N. ZEALAND</text>
         <text class="map-sublabel" x="1180" y="848">Beef · Lamb</text>
       </g>
     </svg>
-    <div class="map-tip" id="mapTip"></div>
   </div>
 </section>
 
@@ -2118,22 +2095,6 @@
       animateDot('d-esp', 'r-esp', 2800, 2500);
       animateDot('d-aus', 'r-aus', 2200, 2800);
       animateDot('d-nz',  'r-nz',  2500, 3100);
-      // Tooltips
-      const tip = document.getElementById('mapTip');
-      document.querySelectorAll('.map-node-g').forEach(g => {
-        g.addEventListener('mouseenter', () => {
-          tip.innerHTML = g.dataset.tip;
-          tip.style.display = 'block';
-        });
-        g.addEventListener('mousemove', e => {
-          const r = wrap.getBoundingClientRect();
-          let x = e.clientX - r.left + 14;
-          let y = e.clientY - r.top - 10;
-          tip.style.left = x + 'px';
-          tip.style.top  = y + 'px';
-        });
-        g.addEventListener('mouseleave', () => { tip.style.display = 'none'; });
-      });
       // Center scroll on Korea hub (x=950 out of 1600 = 59.4%)
       const svg = wrap.querySelector('.map-svg');
       if (svg && wrap.scrollWidth > wrap.clientWidth) {
