@@ -2019,8 +2019,13 @@
   document.querySelectorAll('.nav-lang button').forEach(btn => {
     btn.addEventListener('click', () => applyLang(btn.dataset.lang));
   });
-  // Restore preferred language
+  // Restore preferred language (URL ?lang=en takes priority over saved preference)
   (() => {
+    const urlLang = new URLSearchParams(window.location.search).get('lang');
+    if (urlLang === 'en' || urlLang === 'kr') {
+      applyLang(urlLang);
+      return;
+    }
     let saved = 'kr';
     try { saved = localStorage.getItem('foodiverse_lang') || 'kr'; } catch (e) {}
     if (saved === 'en') applyLang('en');
