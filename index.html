@@ -1147,6 +1147,7 @@
       box-shadow: 0 4px 16px rgba(0,0,0,0.18);
       cursor: pointer;
       border: none;
+      text-decoration: none;
       transition: transform 0.2s, box-shadow 0.2s;
     }
     .kakao-float:hover {
@@ -1740,7 +1741,7 @@
           <div class="contact-item-text">
             <div class="contact-item-label">Kakao Channel</div>
             <div class="contact-item-value">
-              <a href="https://pf.kakao.com/_foodiverse" target="_blank">@foodiverse</a>
+              <a href="https://pf.kakao.com/_mxogqG" target="_blank" rel="noopener noreferrer">@foodiverse</a>
             </div>
           </div>
         </div>
@@ -1806,7 +1807,7 @@
       </div>
       <div class="footer-social">
         <a href="#contact" aria-label="Email"><svg class="icon"><use href="#i-mail"/></svg></a>
-        <a href="https://pf.kakao.com/_mxogqG/chat" target="_blank" aria-label="Kakao"><svg class="icon"><use href="#i-kakao"/></svg></a>
+        <a href="https://pf.kakao.com/_mxogqG" target="_blank" rel="noopener noreferrer" aria-label="Kakao"><svg class="icon"><use href="#i-kakao"/></svg></a>
         <a href="https://www.linkedin.com" target="_blank" aria-label="LinkedIn"><svg class="icon"><use href="#i-linkedin"/></svg></a>
       </div>
     </div>
@@ -1873,10 +1874,10 @@
 </footer>
 
 <!-- FLOATING KAKAO BUTTON -->
-<button class="kakao-float" id="kakaoFloat" aria-label="카카오톡 문의">
+<a class="kakao-float" id="kakaoFloat" href="https://pf.kakao.com/_mxogqG" target="_blank" rel="noopener noreferrer" aria-label="카카오톡 문의">
   <span class="kakao-float-tooltip" data-kr="카카오톡 문의" data-en="Chat on KakaoTalk">카카오톡 문의</span>
   <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 3C6.48 3 2 6.58 2 11c0 2.77 1.78 5.2 4.48 6.64L5.4 21.58c-.1.36.3.65.6.44l4.65-3.08c.44.04.89.06 1.35.06 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>
-</button>
+</a>
 
 <!-- 개인정보처리방침 모달 -->
 <div class="modal-overlay" id="modal-privacy" onclick="if(event.target===this)closeModal('privacy')">
@@ -2117,19 +2118,6 @@
     e.preventDefault();
     document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
     setTimeout(() => document.getElementById('contactEmail')?.focus(), 600);
-  });
-
-  // Floating Kakao button — deep link with web fallback
-  document.getElementById('kakaoFloat')?.addEventListener('click', function() {
-    const deepLink = 'kakaoplus://plusfriend/chat/_mxogqG';
-    const webLink = 'https://pf.kakao.com/_mxogqG/chat';
-    const start = Date.now();
-    window.location.href = deepLink;
-    setTimeout(function() {
-      if (Date.now() - start < 1500) {
-        window.open(webLink, '_blank');
-      }
-    }, 800);
   });
 
   // Form submit — Web3Forms
