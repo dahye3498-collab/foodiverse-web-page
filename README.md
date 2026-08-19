@@ -15,11 +15,11 @@
 
 | # | 섹션 | 앵커 | 내용 |
 |---|---|---|---|
-| 01 | Overview | `#overview` | 글로벌 소싱부터 전국 유통까지 |
+| 01 | About FOODIVERSE | `#about` | 회사 소개 · 글로벌 소싱부터 전국 유통까지 |
 | 02 | Services | `#services` | 소싱 / 직수입·통관 / 콜드체인 / B2B 공급 |
 | 03 | Brands | `#brands` | 9개 핵심 직수입 파트너 브랜드 |
 | 04 | Capabilities | `#capabilities` | 차별화된 역량 |
-| 05 | Reports | `#reports` | 주간 글로벌 축산물 시장 리포트 (AI 자동 생성) |
+| 05 | Market Insights | `#insights` | 주간 글로벌 축산물 시장 리포트 (AI 자동 생성) |
 | 06 | Contact | `#contact` | 파트너십 문의 폼 |
 
 한국어/영어 이중 언어 지원. `?lang=en` 파라미터로 영문 강제 로드 가능.
@@ -37,11 +37,18 @@
 |---|---|---|
 | 대표 전화번호 | `index.html` | `2299-8912` |
 | 대표 이메일 | `index.html` | `import@foodiverse.co.kr` |
-| 카카오 채널 링크 | `index.html` | `pf.kakao.com/_foodiverse` |
+| 카카오 채널 링크 | `index.html` | `pf.kakao.com` (Contact·푸터·플로팅 버튼 3곳) |
 | 업무 시간 | `index.html` | `09:00 — 18:00` |
 | 히어로 문구 | `index.html` | `World-Class Meat` |
 | 브랜드 목록 (9개) | `index.html` | `brand-card` |
 | 메타 설명(SEO) | `index.html` | `meta name="description"` |
+
+> ⚠️ 카카오 채널 주소 끝에 `/chat`을 붙이지 마세요.
+> `pf.kakao.com/_키/chat`은 카카오 계정 로그인과 그 계정에 연결된 카카오톡이
+> 있어야만 열리는 경로라, 조건에 맞지 않는 PC 웹 방문자는
+> "이 계정과 연결된 카카오톡이 없습니다" 화면에서 막힙니다.
+> `/chat` 없는 채널 홈 주소를 쓰면 로그인 없이 열리고, 모바일에서는
+> 카카오톡 앱으로 연결됩니다.
 
 ### 텍스트 편집 규칙
 - 대부분 요소가 한국어/영어 두 버전을 함께 가지고 있어요: `data-kr="한국어" data-en="English"`.
@@ -49,14 +56,15 @@
 - HTML이 포함된 문장은 `data-kr-html` / `data-en-html` 로 되어 있어요 (`&lt;br&gt;` = 줄바꿈).
 
 ### 이미지 교체
-- 회사 로고: `LOGO.png` — 같은 파일명으로 덮어쓰기.
+- 회사 로고: `logo.png` — **소문자 그대로** 같은 파일명으로 덮어쓰기.
+  (`LOGO.png`처럼 대문자로 올리면 배포 서버에서 로고가 깨집니다.)
 - (권장) 새 이미지는 정사각 · 배경 투명(PNG).
 
 ---
 
 ## 주간 뉴스레터 (AI 자동 생성)
 
-`#reports` 섹션의 인사이트 카드는 매주 자동으로 채워집니다.
+`#insights` 섹션의 인사이트 카드는 매주 자동으로 채워집니다.
 
 ```
 매주 월요일 00:00 UTC
@@ -131,7 +139,7 @@ npx vercel dev
 ```
 .
 ├── index.html          # 모든 페이지 콘텐츠
-├── LOGO.png            # 회사 로고
+├── logo.png            # 회사 로고
 ├── api/
 │   ├── cron-draft.js   # 주간 뉴스레터 자동 생성
 │   └── reports.js      # 게시된 뉴스레터 조회 API
